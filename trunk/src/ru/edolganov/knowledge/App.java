@@ -28,9 +28,10 @@ public class App {
 	
 
 	private MainWindow ui;
-	private AppContext context;
+	private AppContext appContext;
 	private EventManager eventManager;
 	private CommandService commandService;
+	private ExceptionHandler exceptionHandler;
 	
 	
 	
@@ -42,7 +43,7 @@ public class App {
 		initContext();
 		initUI();
 		postInitContext();
-		commandService.invoke(new InitControllers(), context);
+		commandService.invoke(new InitControllers());
 		
 		initListeners();
 		
@@ -56,23 +57,26 @@ public class App {
 
 
 	private void initContext(){
-		context = new AppContext();
-		context.setToolkit(Toolkit.getDefaultToolkit());
+		appContext = new AppContext();
+		appContext.setToolkit(Toolkit.getDefaultToolkit());
 		
 		eventManager = new EventManager();
-		context.setEventManager(eventManager);
+		appContext.setEventManager(eventManager);
 		
 		commandService = new CommandService();
-		context.setCommandService(commandService);
+		appContext.setCommandService(commandService);
 		
-		context.setPersistService(new PersistServiceImpl());
+		exceptionHandler = new ExceptionHandler();
+		appContext.setExceptionHandler(exceptionHandler);
+		
+		appContext.setPersistService(new PersistServiceImpl());
 	}
 	
 
 	private void initUI(){
 		ui = new MainWindow(null);
 		ui.setTitle("Knowledge Collector");
-		ui.setIconImage(context.getToolkit().getImage(this.getClass().getResource("/images/kc/app.png")));
+		ui.setIconImage(appContext.getToolkit().getImage(this.getClass().getResource("/images/kc/app.png")));
 		ui.setLocationByPlatform(true);
 		ui.jButton.addActionListener(new ActionListener(){
 
@@ -97,12 +101,12 @@ public class App {
 		});
 		
 		
-		context.setMainWindow(ui);
+		appContext.setMainWindow(ui);
 	}
 	
 	private void postInitContext() {
-		eventManager.setExceptionHandler(new ExceptionHandler(context));
-		
+		eventManager.setExceptionHandler(exceptionHandler);
+		commandService.setAppContext(appContext);
 	}
 	
 	private void initListeners() {

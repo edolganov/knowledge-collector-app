@@ -14,11 +14,12 @@ public class ExceptionHandler implements ListenerExceptionHandler{
 	static final Log log = Log.getInstance(ExceptionHandler.class);
 	
 	AppContext appContext;
-	
-	public ExceptionHandler(AppContext appContext) {
+
+
+
+	public void setAppContext(AppContext appContext) {
 		this.appContext = appContext;
 	}
-
 
 
 	@Override
