@@ -4,11 +4,20 @@ import ru.edolganov.knowledge.AppContext;
 
 public class CommandService {
 	
+	AppContext appContext;
+	
 	public CommandService() {
 		super();
 	}
 	
-	public <T> T invoke(Command<T> c, AppContext appContext) {
+	
+	public void setAppContext(AppContext appContext) {
+		this.appContext = appContext;
+	}
+
+
+
+	public <T> T invoke(Command<T> c) {
 		c.setAppContext(appContext);
 		try {
 			T result = (T)c.doAction();
@@ -18,6 +27,7 @@ public class CommandService {
 			throw e;
 		}
 		catch (Exception e) {
+			//appContext.getExceptionHandler().handle(e); //не можем так делать - обработка должна быть выше
 			throw new CommandInvokeException(e);
 		}
 	}

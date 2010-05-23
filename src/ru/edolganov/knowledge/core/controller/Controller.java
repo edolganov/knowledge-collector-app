@@ -28,7 +28,7 @@ public abstract class Controller<T> extends GenericController<T> {
 	}
 	
 	protected <N> N invoke(Command<N> command){
-		return appContext.getCommandService().invoke(command, appContext);
+		return appContext.getCommandService().invoke(command);
 	}
 	
 	protected void fireEvent(Event<?> event){

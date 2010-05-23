@@ -4,6 +4,7 @@ import java.awt.Toolkit;
 
 import ru.chapaj.util.event.EventManager;
 import ru.edolganov.knowledge.core.command.CommandService;
+import ru.edolganov.knowledge.main.ui.ExceptionHandler;
 import ru.edolganov.knowledge.main.ui.MainWindow;
 import ru.edolganov.knowledge.persist.PersistService;
 
@@ -14,9 +15,19 @@ public class AppContext {
 	private EventManager eventManager;
 	private CommandService commandService;
 	private PersistService persistService;
+	private ExceptionHandler exceptionHandler;
 	
 	
 	
+
+
+	public ExceptionHandler getExceptionHandler() {
+		return exceptionHandler;
+	}
+
+	public void setExceptionHandler(ExceptionHandler exceptionHandler) {
+		this.exceptionHandler = exceptionHandler;
+	}
 
 	public PersistService getPersistService() {
 		return persistService;
