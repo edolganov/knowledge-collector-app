@@ -6,9 +6,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 
+import ru.chapaj.util.event.EventListener;
 import ru.chapaj.util.swing.IconHelper;
 import ru.edolganov.knowledge.core.controller.Controller;
 import ru.edolganov.knowledge.core.controller.ControllerInfo;
+import ru.edolganov.knowledge.event.ui.HideActionPanel;
+import ru.edolganov.knowledge.event.ui.NeedShowOrHideActionPanel;
+import ru.edolganov.knowledge.event.ui.ShowActionPanel;
 import ru.edolganov.knowledge.main.ui.MainWindow;
 
 @ControllerInfo(target=MainWindow.class)
@@ -33,16 +37,14 @@ public class ShowHideInfoController extends Controller<MainWindow> {
 		});
 		
 		
-		App.getDefault().addListener(new AppListener(){
-
-			@Override
-			public void onAction(Object source, String action, Object... data) {				
-				if("need-show-hide-info-action".equals(action)){
-					showHideInfo();
-				}
-			}
+		addListener(new EventListener<NeedShowOrHideActionPanel>(NeedShowOrHideActionPanel.class) {
 			
+			@Override
+			public void onAction(Object source, NeedShowOrHideActionPanel event) {
+				showHideInfo();
+			}
 		});
+		
 		showHideInfo();
 	}
 	
@@ -60,7 +62,8 @@ public class ShowHideInfoController extends Controller<MainWindow> {
 					treeBounds.height);
 			ui.treePanel.repaint();
 			ui.showHideInfoB.setIcon(leftIcon);
-			App.getDefault().fireAction(this, "hide-info");
+			
+			fireEvent(new HideActionPanel());
 		}
 		else {
 			Rectangle infoBounds = ui.infoPanel.getBounds();
@@ -75,7 +78,8 @@ public class ShowHideInfoController extends Controller<MainWindow> {
 			ui.treePanel.repaint();
 			ui.showHideInfoB.setIcon(rightIcon);
 			ui.infoPanel.setVisible(true);
-			App.getDefault().fireAction(this, "show-info");
+			
+			fireEvent(new ShowActionPanel());
 		}
 	}
 	

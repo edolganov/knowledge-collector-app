@@ -8,10 +8,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import ru.chapaj.util.event.EventListener;
 import ru.chapaj.util.swing.IconHelper;
 import ru.edolganov.knowledge.core.controller.Controller;
 import ru.edolganov.knowledge.core.controller.ControllerInfo;
+import ru.edolganov.knowledge.event.settings.LoadSettings;
+import ru.edolganov.knowledge.event.settings.SaveSettings;
 import ru.edolganov.knowledge.main.ui.MainWindow;
+import ru.edolganov.knowledge.model.SettingsMap;
 
 @ControllerInfo(target=MainWindow.class)
 public class WindowScreenController extends Controller<MainWindow> {
@@ -70,24 +74,19 @@ public class WindowScreenController extends Controller<MainWindow> {
 		});
 		
 		
-		addListener(new AppListener() {
-			
-			@Override
-			public void onAction(Object source, String action, Object... data) {
-				
-				
-				if(data == null || data.length < 1 || ! (data[0] instanceof SettingsMap)){
-					return;
-				}
-				
-				if("load-settings".equals(action)){
+		addListener(new EventListener<LoadSettings>(LoadSettings.class) {
 
-					loadPosition((SettingsMap)data[0]);
-				}
-				else if("save-settings".equals(action)){
-					savePosition((SettingsMap)data[0]);
-				}
-				
+			@Override
+			public void onAction(Object source, LoadSettings event) {
+				loadPosition(event.getData());
+			}
+		});
+		
+		addListener(new EventListener<SaveSettings>(SaveSettings.class) {
+
+			@Override
+			public void onAction(Object source, SaveSettings event) {
+				savePosition(event.getData());
 			}
 		});
 		
@@ -113,55 +112,45 @@ public class WindowScreenController extends Controller<MainWindow> {
 	
 	
 	private void loadPosition(SettingsMap settings) {
-		try {
-			
-			String width = settings.map().get("ui-width");
-			String height = settings.map().get("ui-height");
-			String x = settings.map().get("ui-x");
-			String y = settings.map().get("ui-y");
-			
-			oldW = Integer.parseInt(width);
-			oldH = Integer.parseInt(height);
-			oldPX = Integer.parseInt(x);
-			oldPY =Integer.parseInt(y);
-			
-			String fullscreen = settings.map().get("ui-fullscreen");
-			if("true".equals(fullscreen)) fullScreen = true;
-			
-			if(fullScreen){
-				doFullScreen();
-			}
-			else {
-				doOldBound();
-			}
-			
-			updateUI();
-		} catch (Exception e) {
-			ExceptionHandler.handle(e);
+		
+		String width = settings.map().get("ui-width");
+		String height = settings.map().get("ui-height");
+		String x = settings.map().get("ui-x");
+		String y = settings.map().get("ui-y");
+		
+		oldW = Integer.parseInt(width);
+		oldH = Integer.parseInt(height);
+		oldPX = Integer.parseInt(x);
+		oldPY =Integer.parseInt(y);
+		
+		String fullscreen = settings.map().get("ui-fullscreen");
+		if("true".equals(fullscreen)) fullScreen = true;
+		
+		if(fullScreen){
+			doFullScreen();
 		}
+		else {
+			doOldBound();
+		}
+		
+		updateUI();
 	}
 	
 	private void savePosition(SettingsMap settings) {
-		try {
-			if(!fullScreen){
-				settings.map().put("ui-width",""+ui.getWidth());
-				settings.map().put("ui-height",""+ui.getHeight());
-				settings.map().put("ui-x",""+ui.getX());
-				settings.map().put("ui-y",""+ui.getY());
-			}
-			else {
-				settings.map().put("ui-width",""+oldW);
-				settings.map().put("ui-height",""+oldH);
-				settings.map().put("ui-x",""+oldPX);
-				settings.map().put("ui-y",""+oldPY);
-			}
-			
-			settings.map().put("ui-fullscreen",""+fullScreen);
-
-		} catch (Exception e) {
-			ExceptionHandler.handle(e);
+		if(!fullScreen){
+			settings.map().put("ui-width",""+ui.getWidth());
+			settings.map().put("ui-height",""+ui.getHeight());
+			settings.map().put("ui-x",""+ui.getX());
+			settings.map().put("ui-y",""+ui.getY());
+		}
+		else {
+			settings.map().put("ui-width",""+oldW);
+			settings.map().put("ui-height",""+oldH);
+			settings.map().put("ui-x",""+oldPX);
+			settings.map().put("ui-y",""+oldPY);
 		}
 		
+		settings.map().put("ui-fullscreen",""+fullScreen);
 	}
 
 	private void updateUI() {

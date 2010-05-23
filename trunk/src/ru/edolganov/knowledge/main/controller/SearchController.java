@@ -1,15 +1,11 @@
 package ru.edolganov.knowledge.main.controller;
 
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -20,11 +16,12 @@ import javax.swing.tree.TreePath;
 
 import model.knowledge.Link;
 import model.knowledge.Node;
-
 import ru.chapaj.util.Check;
 import ru.edolganov.knowledge.core.controller.Controller;
 import ru.edolganov.knowledge.core.controller.ControllerInfo;
 import ru.edolganov.knowledge.main.ui.MainWindow;
+import ru.edolganov.knowledge.model.DecoratorUtil;
+import ru.edolganov.knowledge.model.ModelClassComparator;
 
 
 @ControllerInfo(target=MainWindow.class)
@@ -116,15 +113,7 @@ public class SearchController extends Controller<MainWindow> {
 		
 		//sort
 		Class<?>[] keys = map.keySet().toArray(new Class<?>[0]);
-		Arrays.sort(keys, new Comparator<Class<?>>(){
-
-			@SuppressWarnings("unchecked")
-			@Override
-			public int compare(Class<?> o1, Class<?> o2) {
-				return CompareUtil.compare(CompareUtil.index((Class<? extends Node>)o1), CompareUtil.index((Class<? extends Node>)o2));
-			}
-			
-		});
+		Arrays.sort(keys, new ModelClassComparator());
 		
 		listModel.clear();
 		for(Class<?> key : keys){
