@@ -8,8 +8,12 @@ import java.awt.event.WindowEvent;
 
 import ru.chapaj.util.event.EventListener;
 import ru.chapaj.util.event.EventManager;
+import ru.edolganov.knowledge.command.app.InitControllers;
+import ru.edolganov.knowledge.core.command.CommandService;
+import ru.edolganov.knowledge.event.NeedShowApp;
 import ru.edolganov.knowledge.event.TryExit;
-import ru.edolganov.knowledge.main.MainWindow;
+import ru.edolganov.knowledge.main.ui.MainWindow;
+import ru.edolganov.knowledge.persist.fs.PersistServiceImpl;
 
 
 public class App {
@@ -25,6 +29,7 @@ public class App {
 	private MainWindow ui;
 	private AppContext context;
 	private EventManager eventManager;
+	private CommandService commandService;
 	
 	
 	
@@ -35,26 +40,28 @@ public class App {
 	public void start() {
 		initContext();
 		initUI();
-		//controllers
+		commandService.invoke(new InitControllers(), context);
 		
+		initListeners();
 		
-		eventManager.addLastListener(new EventListener<TryExit>(TryExit.class) {
-			
-			@Override
-			public void onAction(Object source, TryExit event) {
-				exit();
-			}
-		});
+
 		ui.setVisible(true);
 		
 	}
 	
+
+
 	private void initContext(){
 		context = new AppContext();
 		context.setToolkit(Toolkit.getDefaultToolkit());
 		
 		eventManager = new EventManager();
 		context.setEventManager(eventManager);
+		
+		commandService = new CommandService();
+		context.setCommandService(commandService);
+		
+		context.setPersistService(new PersistServiceImpl());
 	}
 	
 
@@ -89,17 +96,42 @@ public class App {
 		context.setMainWindow(ui);
 	}
 	
+	private void initListeners() {
+		eventManager.addLastListener(new EventListener<TryExit>(TryExit.class) {
+			
+			@Override
+			public void onAction(Object source, TryExit event) {
+				exit();
+			}
+		});
+		
+		eventManager.addLastListener(new EventListener<NeedShowApp>(NeedShowApp.class) {
+			
+			@Override
+			public void onAction(Object source, NeedShowApp event) {
+				show();
+			}
+		});
+		
+	}
+	
 	private void exit() {
 		System.exit(0);
 	}
 	
-	public void show(){
+	private void show(){
 		ui.setVisible(true);
 		ui.toFront();
 	}
 	
-	public void hideIfNeed() {
+	private void hideIfNeed() {
 		if(ui.isActive()) ui.setVisible(false);	
 	}
+	
+		
+
+	
+
+
 	
 }

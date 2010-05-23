@@ -1,4 +1,4 @@
-package ru.edolganov.knowledge.main;
+package ru.edolganov.knowledge.main.ui;
 
 import javax.swing.JPanel;
 import java.awt.Frame;
@@ -42,7 +42,6 @@ public class MainWindow extends JDialog {
 	public JButton dirB = null;
 	public JButton linkB = null;
 	public JButton noteB = null;
-	private JTabbedPane jTabbedPane1 = null;
 	private JPanel jPanel41 = null;
 	private JScrollPane jScrollPane11 = null;
 	public ExtendTree snapTree = null;
@@ -66,6 +65,7 @@ public class MainWindow extends JDialog {
 	private JPanel bLeftButtons = null;
 	private JPanel bRightButtons = null;
 	public JButton fullStandart = null;
+	private JTabbedPane actonsTabPanel = null;
 	/**
 	 * @param owner
 	 */
@@ -267,21 +267,6 @@ public class MainWindow extends JDialog {
 	}
 
 	/**
-	 * This method initializes jTabbedPane1	
-	 * 	
-	 * @return javax.swing.JTabbedPane	
-	 */
-	private JTabbedPane getJTabbedPane1() {
-		if (jTabbedPane1 == null) {
-			jTabbedPane1 = new JTabbedPane();
-			jTabbedPane1.setPreferredSize(new Dimension(176, 48));
-			jTabbedPane1.addTab("snapshot", null, getJPanel41(), null);
-			jTabbedPane1.addTab("search", null, getJPanel51(), null);
-		}
-		return jTabbedPane1;
-	}
-
-	/**
 	 * This method initializes jPanel41	
 	 * 	
 	 * @return javax.swing.JPanel	
@@ -304,6 +289,7 @@ public class MainWindow extends JDialog {
 	private JScrollPane getJScrollPane11() {
 		if (jScrollPane11 == null) {
 			jScrollPane11 = new JScrollPane();
+			//jScrollPane11.setPreferredSize(new Dimension(81, 468));
 			jScrollPane11.setViewportView(getJTree11());
 		}
 		return jScrollPane11;
@@ -427,7 +413,7 @@ public class MainWindow extends JDialog {
 	private JTextField getSearchF() {
 		if (searchF == null) {
 			searchF = new JTextFieldExt();
-			searchF.setBounds(new Rectangle(3, 4, 170, 20));
+			searchF.setBounds(new Rectangle(3, 4, 326, 20));
 		}
 		return searchF;
 	}
@@ -497,14 +483,10 @@ public class MainWindow extends JDialog {
 	 */
 	private JPanel getLeftPanel() {
 		if (leftPanel == null) {
-			GridBagConstraints gridBagConstraints4 = new GridBagConstraints();
-			gridBagConstraints4.fill = GridBagConstraints.BOTH;
-			gridBagConstraints4.weighty = 1.0;
-			gridBagConstraints4.weightx = 1.0;
 			leftPanel = new JPanel();
-			leftPanel.setLayout(new GridBagLayout());
+			leftPanel.setLayout(new BorderLayout());
 			leftPanel.setPreferredSize(new Dimension(180, 48));
-			leftPanel.add(getJTabbedPane1(), gridBagConstraints4);
+			leftPanel.add(getJPanel41(), BorderLayout.CENTER);
 		}
 		return leftPanel;
 	}
@@ -527,9 +509,9 @@ public class MainWindow extends JDialog {
 			gridBagConstraints1.gridy = -1;
 			rigthPanel = new JPanel();
 			rigthPanel.setLayout(new BorderLayout());
-			rigthPanel.add(getInfoPanel(), BorderLayout.EAST);
 			rigthPanel.add(getJPanel1(), BorderLayout.CENTER);
 			rigthPanel.add(getJPanel(), BorderLayout.NORTH);
+			rigthPanel.add(getActonsTabPanel(), BorderLayout.EAST);
 		}
 		return rigthPanel;
 	}
@@ -634,6 +616,20 @@ public class MainWindow extends JDialog {
 			fullStandart.setText("");
 		}
 		return fullStandart;
+	}
+
+	/**
+	 * This method initializes actonsTabPanel	
+	 * 	
+	 * @return javax.swing.JTabbedPane	
+	 */
+	private JTabbedPane getActonsTabPanel() {
+		if (actonsTabPanel == null) {
+			actonsTabPanel = new JTabbedPane();
+			actonsTabPanel.addTab("Info", null, getInfoPanel(), null);
+			actonsTabPanel.addTab("Search", null, getJPanel51(), null);
+		}
+		return actonsTabPanel;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
