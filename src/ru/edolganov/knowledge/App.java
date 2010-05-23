@@ -10,8 +10,9 @@ import ru.chapaj.util.event.EventListener;
 import ru.chapaj.util.event.EventManager;
 import ru.edolganov.knowledge.command.app.InitControllers;
 import ru.edolganov.knowledge.core.command.CommandService;
-import ru.edolganov.knowledge.event.NeedShowApp;
 import ru.edolganov.knowledge.event.TryExit;
+import ru.edolganov.knowledge.event.ui.NeedShowApp;
+import ru.edolganov.knowledge.main.ui.ExceptionHandler;
 import ru.edolganov.knowledge.main.ui.MainWindow;
 import ru.edolganov.knowledge.persist.fs.PersistServiceImpl;
 
@@ -40,6 +41,7 @@ public class App {
 	public void start() {
 		initContext();
 		initUI();
+		postInitContext();
 		commandService.invoke(new InitControllers(), context);
 		
 		initListeners();
@@ -49,6 +51,8 @@ public class App {
 		
 	}
 	
+
+
 
 
 	private void initContext(){
@@ -94,6 +98,11 @@ public class App {
 		
 		
 		context.setMainWindow(ui);
+	}
+	
+	private void postInitContext() {
+		eventManager.setExceptionHandler(new ExceptionHandler(context));
+		
 	}
 	
 	private void initListeners() {

@@ -13,8 +13,8 @@ import java.awt.event.MouseListener;
 
 import ru.edolganov.knowledge.core.controller.Controller;
 import ru.edolganov.knowledge.core.controller.ControllerInfo;
-import ru.edolganov.knowledge.event.NeedShowApp;
 import ru.edolganov.knowledge.event.TryExit;
+import ru.edolganov.knowledge.event.ui.NeedShowApp;
 import ru.edolganov.knowledge.main.ui.MainWindow;
 
 

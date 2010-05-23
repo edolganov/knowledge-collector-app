@@ -1,4 +1,4 @@
-package ru.edolganov.knowledge.event;
+package ru.edolganov.knowledge.event.ui;
 
 import ru.chapaj.util.event.Event;
 
