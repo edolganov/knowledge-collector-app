@@ -24,6 +24,7 @@ import ru.edolganov.knowledge.core.controller.Controller;
 import ru.edolganov.knowledge.core.controller.ControllerInfo;
 import ru.edolganov.knowledge.main.ui.MainWindow;
 import ru.edolganov.knowledge.main.ui.tree.HasCellConst;
+import ru.edolganov.knowledge.main.ui.tree.MainCellRender;
 
 @ControllerInfo(target=MainWindow.class)
 public class TreeController extends Controller<MainWindow> implements HasCellConst{
@@ -58,7 +59,7 @@ public class TreeController extends Controller<MainWindow> implements HasCellCon
 		treeRoot.setUserObject("root");
 		tree.setRootVisible(false);
 		
-		tree.setCellEditor(new MainCellEditor());
+		tree.setCellEditor(new MainCellEditor(getAppContext()));
 		tree.setEditable(true);
 		
 		tree.addTreeNodeListener(new TreeNodeAdapter(){

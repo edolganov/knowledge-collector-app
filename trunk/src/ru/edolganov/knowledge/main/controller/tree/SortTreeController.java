@@ -11,38 +11,27 @@ import model.knowledge.Node;
 import model.knowledge.RootElement;
 import model.knowledge.Root;
 import ru.chapaj.util.collection.ListUtil;
+import ru.chapaj.util.event.annotation.EventListener;
 import ru.chapaj.util.lang.ClassUtil;
 import ru.chapaj.util.swing.tree.ExtendDefaultTreeModel;
 import ru.chapaj.util.swing.tree.TreeNodeAdapter;
 import ru.edolganov.knowledge.core.controller.Controller;
 import ru.edolganov.knowledge.core.controller.ControllerInfo;
+import ru.edolganov.knowledge.event.persist.ChildAdded;
 import ru.edolganov.knowledge.main.ui.MainWindow;
+import ru.edolganov.knowledge.model.RootElementComparator;
 
 @ControllerInfo(target=MainWindow.class, dependence=TreeController.class)
 public class SortTreeController extends Controller<MainWindow>{
 	
 	
-	private Comparator<RootElement> nodeComparator = new Comparator<RootElement>(){
-
-		@Override 
-		public int compare(RootElement a,RootElement b){
-			return CompareUtil.compare(CompareUtil.index(a), CompareUtil.index(b));
-		}
-		
-	};
+	private Comparator<RootElement> nodeComparator = new RootElementComparator();
 	
 	MainWindow ui;
 	
 	@Override
 	public void init(MainWindow ui_) {
 		ui = ui_;
-		get(TreeController.class).addListener(new DAOEventAdapter(){
-
-			@Override
-			public void onAdded(RootElement parent, RootElement child) {
-				sortNodes(parent, child);
-			}
-		});
 		
 		ui.tree.addTreeNodeListener(new TreeNodeAdapter(){
 			@Override
@@ -64,7 +53,10 @@ public class SortTreeController extends Controller<MainWindow>{
 		
 	}
 
-	private void sortNodes(RootElement parent, RootElement child) {
+	@EventListener(ChildAdded.class)
+	public void sortNodes(ChildAdded added) {
+		RootElement parent = added.getData().first;
+		RootElement child = added.getData().second;
 		//update model
 		DefaultMutableTreeNode childInitNode = dao.getCache().get(child, "tree-node", DefaultMutableTreeNode.class);
 		TreePath childPath = new TreePath(childInitNode.getPath());
