@@ -25,6 +25,7 @@ public abstract class Controller<T> extends GenericController<T> {
 
 	public void setAppContext(AppContext appContext) {
 		this.appContext = appContext;
+		appContext.getEventManager().addObjectMethodListeners(this);
 	}
 	
 	protected <N> N invoke(Command<N> command){

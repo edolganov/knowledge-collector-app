@@ -6,15 +6,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import ru.chapaj.util.event.EventListener;
 import ru.chapaj.util.event.EventManager;
+import ru.chapaj.util.event.annotation.LastEventListener;
 import ru.edolganov.knowledge.command.app.InitControllers;
 import ru.edolganov.knowledge.core.command.CommandService;
 import ru.edolganov.knowledge.event.TryExit;
 import ru.edolganov.knowledge.event.ui.NeedShowApp;
 import ru.edolganov.knowledge.main.ui.ExceptionHandler;
 import ru.edolganov.knowledge.main.ui.MainWindow;
-import ru.edolganov.knowledge.persist.fs.PersistServiceImpl;
+import ru.edolganov.knowledge.persist.fs.FSPersist;
 
 
 public class App {
@@ -34,7 +34,6 @@ public class App {
 	private ExceptionHandler exceptionHandler;
 	
 	
-	
 	private App(){
 		
 	}
@@ -43,9 +42,11 @@ public class App {
 		initContext();
 		initUI();
 		postInitContext();
+
+		
+		new FSPersist(appContext);
 		commandService.invoke(new InitControllers());
 		
-		initListeners();
 		
 
 		ui.setVisible(true);
@@ -68,8 +69,6 @@ public class App {
 		
 		exceptionHandler = new ExceptionHandler();
 		appContext.setExceptionHandler(exceptionHandler);
-		
-		appContext.setPersistService(new PersistServiceImpl());
 	}
 	
 
@@ -106,33 +105,19 @@ public class App {
 	
 	private void postInitContext() {
 		eventManager.setExceptionHandler(exceptionHandler);
+		eventManager.addObjectMethodListeners(this);
+		
 		commandService.setAppContext(appContext);
 	}
 	
-	private void initListeners() {
-		eventManager.addLastListener(new EventListener<TryExit>(TryExit.class) {
-			
-			@Override
-			public void onAction(Object source, TryExit event) {
-				exit();
-			}
-		});
-		
-		eventManager.addLastListener(new EventListener<NeedShowApp>(NeedShowApp.class) {
-			
-			@Override
-			public void onAction(Object source, NeedShowApp event) {
-				show();
-			}
-		});
-		
-	}
 	
-	private void exit() {
+	@LastEventListener(TryExit.class)
+	public void exit() {
 		System.exit(0);
 	}
 	
-	private void show(){
+	@LastEventListener(NeedShowApp.class)
+	public void show(){
 		ui.setVisible(true);
 		ui.toFront();
 	}
