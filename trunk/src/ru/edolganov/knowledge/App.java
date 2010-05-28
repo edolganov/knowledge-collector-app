@@ -15,6 +15,7 @@ import ru.edolganov.knowledge.event.ui.NeedShowApp;
 import ru.edolganov.knowledge.main.ui.ExceptionHandler;
 import ru.edolganov.knowledge.main.ui.MainWindow;
 import ru.edolganov.knowledge.persist.fs.FSPersist;
+import ru.edolganov.knowledge.tools.NodeObjectsCache;
 
 
 public class App {
@@ -32,6 +33,7 @@ public class App {
 	private EventManager eventManager;
 	private CommandService commandService;
 	private ExceptionHandler exceptionHandler;
+	private NodeObjectsCache nodeObjectsCache;
 	
 	
 	private App(){
@@ -69,6 +71,9 @@ public class App {
 		
 		exceptionHandler = new ExceptionHandler();
 		appContext.setExceptionHandler(exceptionHandler);
+		
+		nodeObjectsCache = new NodeObjectsCache();
+		appContext.setNodeObjectsCache(nodeObjectsCache);
 	}
 	
 
@@ -108,6 +113,7 @@ public class App {
 		eventManager.addObjectMethodListeners(this);
 		
 		commandService.setAppContext(appContext);
+		nodeObjectsCache.setAppContext(appContext);
 	}
 	
 	

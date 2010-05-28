@@ -11,13 +11,18 @@ import model.knowledge.Node;
 import model.knowledge.RootElement;
 import model.knowledge.Root;
 import ru.chapaj.util.collection.ListUtil;
+import ru.chapaj.util.event.EventCallback;
+import ru.chapaj.util.event.StopEventException;
 import ru.chapaj.util.event.annotation.EventListener;
 import ru.chapaj.util.lang.ClassUtil;
 import ru.chapaj.util.swing.tree.ExtendDefaultTreeModel;
 import ru.chapaj.util.swing.tree.TreeNodeAdapter;
+import ru.edolganov.knowledge.command.tree.MoveNode;
 import ru.edolganov.knowledge.core.controller.Controller;
 import ru.edolganov.knowledge.core.controller.ControllerInfo;
 import ru.edolganov.knowledge.event.persist.ChildAdded;
+import ru.edolganov.knowledge.event.persist.NeedUpdateRoot;
+import ru.edolganov.knowledge.event.persist.RootUpdated;
 import ru.edolganov.knowledge.main.ui.MainWindow;
 import ru.edolganov.knowledge.model.RootElementComparator;
 
@@ -47,7 +52,7 @@ public class SortTreeController extends Controller<MainWindow>{
 			@Override
 			public void afterDrop(DefaultMutableTreeNode tagretNode,
 					DefaultMutableTreeNode draggedNode) {
-				CommandService.invoke(new MoveNode(tagretNode,draggedNode));
+				invoke(new MoveNode(tagretNode,draggedNode));
 			}
 		});
 		
@@ -55,37 +60,49 @@ public class SortTreeController extends Controller<MainWindow>{
 
 	@EventListener(ChildAdded.class)
 	public void sortNodes(ChildAdded added) {
-		RootElement parent = added.getData().first;
+		final RootElement parent = added.getData().first;
 		RootElement child = added.getData().second;
 		//update model
-		DefaultMutableTreeNode childInitNode = dao.getCache().get(child, "tree-node", DefaultMutableTreeNode.class);
+		DefaultMutableTreeNode childInitNode = getCache().get(child, "tree-node", DefaultMutableTreeNode.class);
 		TreePath childPath = new TreePath(childInitNode.getPath());
-		TreePath selectedPath = null;
-		if(ui.tree.isPathSelected(childPath)){
-			selectedPath = childPath;
-		}
+		final TreePath selectedPath = ui.tree.isPathSelected(childPath)? childPath : null;
 		Root root = child.getParent();
 		List<RootElement> nodes = root.getNodes();
 		Collections.sort(nodes, nodeComparator);
-		dao.merge(root);
-		//update tree
-		DefaultMutableTreeNode parentNode = dao.getCache().get(parent, "tree-node", DefaultMutableTreeNode.class);
+		final List<RootElement> nodes_ = nodes;
+		fireEvent(new NeedUpdateRoot(root));
+		
+		fireEventCallback(new EventCallback<NeedUpdateRoot, RootUpdated>(new NeedUpdateRoot(root),RootUpdated.class) {
 
-		for (int i = 0; i < nodes.size(); i++) {
-			DefaultMutableTreeNode childNode = dao.getCache().get(nodes.get(i), "tree-node", DefaultMutableTreeNode.class);
-			if(parentNode.getChildAt(i) != childNode){
-				parentNode.remove(childNode);
-				parentNode.insert(childNode, i);
-			}					
-		}
-		ui.tree.model().reload(parentNode);
-		if(selectedPath != null) ui.tree.setSelectionPath(selectedPath);
+					@Override
+					public void onAction(Object source, RootUpdated event)
+							throws StopEventException {
+						//update tree
+						DefaultMutableTreeNode parentNode = getCache().get(parent, "tree-node", DefaultMutableTreeNode.class);
+
+						for (int i = 0; i < nodes_.size(); i++) {
+							DefaultMutableTreeNode childNode = getCache().get(nodes_.get(i), "tree-node", DefaultMutableTreeNode.class);
+							if(parentNode.getChildAt(i) != childNode){
+								parentNode.remove(childNode);
+								parentNode.insert(childNode, i);
+							}					
+						}
+						ui.tree.model().reload(parentNode);
+						if(selectedPath != null) ui.tree.setSelectionPath(selectedPath);
+					}
+		});
+
+	}
+	
+	@EventListener(RootUpdated.class)
+	void rootUpdated(RootUpdated rootUpdated){
+		
 	}
 
 	private void moveNode(boolean down) {
-		DefaultMutableTreeNode node = ui.tree.getCurrentNode();
+		final DefaultMutableTreeNode node = ui.tree.getCurrentNode();
 		if(node == null) return;
-		DefaultMutableTreeNode parent = (DefaultMutableTreeNode)node.getParent();
+		final DefaultMutableTreeNode parent = (DefaultMutableTreeNode)node.getParent();
 		if(parent == null || parent.getChildCount() == 1) return;
 		Object ob = node.getUserObject();
 		if(!(ob instanceof Node)) return;
@@ -121,13 +138,23 @@ public class SortTreeController extends Controller<MainWindow>{
 		//System.out.println("oldIndex:"+oldIndex + " newIndex:" + newIndex);
 		//update model
 		ListUtil.move(nodes, meta, newIndex);
-		dao.merge(root);
-		//update tree
-		ExtendDefaultTreeModel model = ui.tree.model();
-		model.removeNodeFromParent(node);
-		model.insertNodeInto(node, parent, newIndex);
-		TreePath treePath = new TreePath(node.getPath());
-		ui.tree.setSelectionPath(treePath);
+		
+		final int newIndex_ = newIndex;
+		
+		fireEventCallback(new EventCallback<NeedUpdateRoot, RootUpdated>(new NeedUpdateRoot(root),RootUpdated.class) {
+
+			@Override
+			public void onAction(Object source, RootUpdated event)
+					throws StopEventException {
+				//update tree
+				ExtendDefaultTreeModel model = ui.tree.model();
+				model.removeNodeFromParent(node);
+				model.insertNodeInto(node, parent, newIndex_);
+				TreePath treePath = new TreePath(node.getPath());
+				ui.tree.setSelectionPath(treePath);
+			}
+		});
+
 	}
 	
 
