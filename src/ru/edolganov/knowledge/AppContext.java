@@ -6,6 +6,7 @@ import ru.chapaj.util.event.EventManager;
 import ru.edolganov.knowledge.core.command.CommandService;
 import ru.edolganov.knowledge.main.ui.ExceptionHandler;
 import ru.edolganov.knowledge.main.ui.MainWindow;
+import ru.edolganov.knowledge.tools.NodeObjectsCache;
 
 public class AppContext {
 	
@@ -14,10 +15,19 @@ public class AppContext {
 	private EventManager eventManager;
 	private CommandService commandService;
 	private ExceptionHandler exceptionHandler;
+	private NodeObjectsCache nodeObjectsCache;
 	
 	
 	
 
+
+	public NodeObjectsCache getNodeObjectsCache() {
+		return nodeObjectsCache;
+	}
+
+	public void setNodeObjectsCache(NodeObjectsCache nodeObjectsCache) {
+		this.nodeObjectsCache = nodeObjectsCache;
+	}
 
 	public ExceptionHandler getExceptionHandler() {
 		return exceptionHandler;
