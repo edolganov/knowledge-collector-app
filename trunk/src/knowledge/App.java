@@ -121,8 +121,8 @@ public class App {
 		eventManager.addObjectMethodListeners(this);
 		
 		commandService.setAppContext(appContext);
-		nodeObjectsCache.setAppContext(appContext);
-		fsPersist.setAppContext(appContext);
+		nodeObjectsCache.init(appContext);
+		fsPersist.init("./know",appContext);
 	}
 	
 	
