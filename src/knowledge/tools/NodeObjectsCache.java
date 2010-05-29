@@ -1,15 +1,10 @@
 package knowledge.tools;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import knowledge.AppContext;
-
-
-import model.knowledge.Root;
 import model.knowledge.RootElement;
 
 /**
@@ -26,7 +21,7 @@ public class NodeObjectsCache {
 		super();
 	}
 
-	public void setAppContext(AppContext appContext) {
+	public void init(AppContext appContext) {
 		this.appContext = appContext;
 		appContext.getEventManager().addObjectMethodListeners(this);
 	}
@@ -36,21 +31,7 @@ public class NodeObjectsCache {
 	ReadWriteLock lock = new ReentrantReadWriteLock();
 	
 	HashMap<String, HashMap<String, Object>> objectsMap = new HashMap<String, HashMap<String, Object>>();
-	//[path - root]
-	HashMap<String, Root> rootsPathMap = new HashMap<String, Root>();
-	//[uuid - root]
-	HashMap<String, Root> rootsUuidMap = new HashMap<String, Root>();
-	
-	// [14.10.2009] jenua.dolganov: более корректная модель для кеширования рутов 
-	// строим дерево из рутов, храня название их папки (или весь путь для корневого рута)
-	// при удалении, перемещении, переименовании не нужно пробегать весь кеш - достаточно
-	// только исправить один элемент
-	static class RootCache {
-		Root root;
-		List<Root> chidren = new LinkedList<Root>();
-		Root parent;
-		String dirName;
-	}
+
 
 	
 	
@@ -65,15 +46,7 @@ public class NodeObjectsCache {
 
 	}
 	
-	public void putRoot(Root root){
-		lock.writeLock().lock();
-		try {
-			rootsPathMap.put(root.getDirPath(), root);
-			rootsUuidMap.put(root.getUuid(), root);
-		} finally {
-			lock.writeLock().unlock();
-		}
-	}
+
 
 	
 
@@ -104,23 +77,9 @@ public class NodeObjectsCache {
 	}
 	
 	
-	public Root getRoot(String path){
-		lock.readLock().lock();
-		try {
-			return rootsPathMap.get(path);
-		} finally {
-			lock.readLock().unlock();
-		}
-	}
+
 	
-	public Root getRootByUuid(String rootUuid) {
-		lock.readLock().lock();
-		try {
-			return rootsUuidMap.get(rootUuid);
-		} finally {
-			lock.readLock().unlock();
-		}
-	}
+
 
 	void remove(RootElement node) {
 		lock.writeLock().lock();
@@ -131,59 +90,6 @@ public class NodeObjectsCache {
 		}
 	}
 
-	/**
-	 * Не очень красивое (полный перебор), но простое решение обновления кеша
-	 * @param pathPattern
-	 */
-	void deleteAllRoots(String pathPattern) {
-		lock.writeLock().lock();
-		try {
-			pathPattern = pathPattern.replace('\\', '/');
-			LinkedList<String> keys = new LinkedList<String>();
-			for(String key : rootsPathMap.keySet())
-				if(key.startsWith(pathPattern))keys.add(key);
-			for(String key : keys){
-				Root root = rootsPathMap.remove(key);
-				rootsUuidMap.remove(root.getUuid());
-				
-				for(RootElement node : root.getNodes()){
-					objectsMap.remove(getNodeKey(node));
-				}
-			}
-			
-		} finally {
-			lock.writeLock().unlock();
-		}
-		
-	}
-	
-	/**
-	 * Не очень красивое (полный перебор), но простое решение обновления кеша
-	 * @param pathPattern
-	 */
-	void renameAllRoots(String oldPathPattern, String newPathPattern) {
-		lock.writeLock().lock();
-		try {
-			oldPathPattern = oldPathPattern.replace('\\', '/');
-			newPathPattern = newPathPattern.replace('\\', '/');
-			int oldPatternLenth = oldPathPattern.length();
-			LinkedList<String> keys = new LinkedList<String>();
-			for(String key : rootsPathMap.keySet())
-				if(key.startsWith(oldPathPattern))keys.add(key);
-			for(String key : keys){
-				Root root = rootsPathMap.remove(key);
-				String dirPath = root.getDirPath();
-				String newPath = newPathPattern;
-				String part = dirPath.substring(oldPatternLenth);
-				if(part.length() > 0) newPath = newPath + part;
-				root.setDirPath(newPath);
-				rootsPathMap.put(root.getDirPath(), root);
-			}
-		} finally {
-			lock.writeLock().unlock();
-		}
-		
-		
-	}
+
 
 }
