@@ -6,7 +6,9 @@ import ru.chapaj.util.event.EventManager;
 import ru.edolganov.knowledge.core.command.CommandService;
 import ru.edolganov.knowledge.main.ui.ExceptionHandler;
 import ru.edolganov.knowledge.main.ui.MainWindow;
+import ru.edolganov.knowledge.persist.fs.FSPersist;
 import ru.edolganov.knowledge.tools.NodeObjectsCache;
+import ru.edolganov.knowledge.tools.SessionCache;
 
 public class AppContext {
 	
@@ -16,10 +18,24 @@ public class AppContext {
 	private CommandService commandService;
 	private ExceptionHandler exceptionHandler;
 	private NodeObjectsCache nodeObjectsCache;
-	
-	
-	
+	private FSPersist fsPersist;
+	private SessionCache sessionCache;
 
+	public SessionCache getSessionCache() {
+		return sessionCache;
+	}
+
+	public void setSessionCache(SessionCache sessionCache) {
+		this.sessionCache = sessionCache;
+	}
+
+	public FSPersist getPersist() {
+		return fsPersist;
+	}
+
+	public void setPersist(FSPersist fsPersist) {
+		this.fsPersist = fsPersist;
+	}
 
 	public NodeObjectsCache getNodeObjectsCache() {
 		return nodeObjectsCache;

@@ -77,7 +77,7 @@ public class NodeObjectsCache {
 	
 
 	@SuppressWarnings("unchecked")
-	public <T> T get(RootElement node, String key, Class<T> clazz){
+	public <T> T get(RootElement node, String key){
 		lock.readLock().lock();
 		try {
 			HashMap<String, Object> nodeObjects = getNodeObjects(node);

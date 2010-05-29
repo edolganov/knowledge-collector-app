@@ -11,11 +11,24 @@ import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import model.knowledge.Dir;
-import model.knowledge.Node;
+import model.knowledge.RootElement;
 import model.knowledge.TextData;
-
+import ru.chapaj.util.event.annotation.EventListener;
 import ru.chapaj.util.swing.IconHelper;
 import ru.chapaj.util.swing.tree.ExtendTree;
+import ru.edolganov.knowledge.AppContext;
+import ru.edolganov.knowledge.command.dialog.NewDir;
+import ru.edolganov.knowledge.command.dialog.NewLink;
+import ru.edolganov.knowledge.command.dialog.NewText;
+import ru.edolganov.knowledge.command.link.AddNodeLinkCandidate;
+import ru.edolganov.knowledge.command.link.CreateNodeLink;
+import ru.edolganov.knowledge.command.tree.AddNode;
+import ru.edolganov.knowledge.command.tree.AddTreeNode;
+import ru.edolganov.knowledge.command.tree.DeleteCurrentTreeNode;
+import ru.edolganov.knowledge.core.command.CommandService;
+import ru.edolganov.knowledge.event.ui.HideActionPanel;
+import ru.edolganov.knowledge.event.ui.NeedShowOrHideActionPanel;
+import ru.edolganov.knowledge.event.ui.ShowActionPanel;
 import ru.edolganov.knowledge.main.ui.tree.HasCellConst;
 
 public class TreeMenu extends JPopupMenu implements HasCellConst {
@@ -45,15 +58,17 @@ public class TreeMenu extends JPopupMenu implements HasCellConst {
 	boolean showInfo = true;
 	
 	
-	public TreeMenu(ExtendTree tree_) {
+	public TreeMenu(ExtendTree tree_, final AppContext appContext) {
 		super();
 		tree = tree_;
+		
+		appContext.getEventManager().addObjectMethodListeners(this);
 		
 		delete.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CommandService.invoke(new DeleteCurrentTreeNode());
+				appContext.getCommandService().invoke(new DeleteCurrentTreeNode());
 			}
 			
 		});
@@ -62,7 +77,9 @@ public class TreeMenu extends JPopupMenu implements HasCellConst {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CommandService.invoke(new AddTreeNode(DialogOps.newDir()));
+				CommandService commandService = appContext.getCommandService();
+				RootElement dir = commandService.invoke(new NewDir());
+				commandService.invoke(new AddNode(dir));
 			}
 			
 		});
@@ -71,7 +88,9 @@ public class TreeMenu extends JPopupMenu implements HasCellConst {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CommandService.invoke(new AddTreeNode(DialogOps.newText()));
+				CommandService commandService = appContext.getCommandService();
+				RootElement dir = commandService.invoke(new NewText());
+				commandService.invoke(new AddNode(dir));
 			}
 			
 		});
@@ -80,7 +99,9 @@ public class TreeMenu extends JPopupMenu implements HasCellConst {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CommandService.invoke(new AddTreeNode(DialogOps.newLink()));
+				CommandService commandService = appContext.getCommandService();
+				RootElement dir = commandService.invoke(new NewLink());
+				commandService.invoke(new AddNode(dir));
 			}
 			
 		});
@@ -93,8 +114,11 @@ public class TreeMenu extends JPopupMenu implements HasCellConst {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Node parent = tree.getParentObject(tree.getCurrentNode(), Node.class);
-				CommandService.invoke(new AddTreeNode(parent,DialogOps.newDir()));
+				RootElement parent = tree.getParentObject(tree.getCurrentNode(), RootElement.class);
+				
+				CommandService commandService = appContext.getCommandService();
+				RootElement dir = commandService.invoke(new NewDir());
+				commandService.invoke(new AddTreeNode(parent,dir));
 			}
 			
 		});
@@ -102,9 +126,12 @@ public class TreeMenu extends JPopupMenu implements HasCellConst {
 		noteToParent.addActionListener(new ActionListener(){
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				Node parent = tree.getParentObject(tree.getCurrentNode(), Node.class);
-				CommandService.invoke(new AddTreeNode(parent,DialogOps.newText()));
+			public void actionPerformed(ActionEvent e) {				
+				RootElement parent = tree.getParentObject(tree.getCurrentNode(), RootElement.class);
+				
+				CommandService commandService = appContext.getCommandService();
+				RootElement dir = commandService.invoke(new NewText());
+				commandService.invoke(new AddTreeNode(parent,dir));
 			}
 			
 		});
@@ -113,8 +140,11 @@ public class TreeMenu extends JPopupMenu implements HasCellConst {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Node parent = tree.getParentObject(tree.getCurrentNode(), Node.class);
-				CommandService.invoke(new AddTreeNode(parent,DialogOps.newLink()));
+				RootElement parent = tree.getParentObject(tree.getCurrentNode(), RootElement.class);
+				
+				CommandService commandService = appContext.getCommandService();
+				RootElement dir = commandService.invoke(new NewLink());
+				commandService.invoke(new AddTreeNode(parent,dir));
 			}
 			
 		});
@@ -127,20 +157,7 @@ public class TreeMenu extends JPopupMenu implements HasCellConst {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				App.getDefault().fireAction(this, "need-show-hide-info-action");
-			}
-			
-		});
-		App.getDefault().addListener(new AppListener(){
-
-			@Override
-			public void onAction(Object source, String action, Object... data) {
-				if("hide-info".equals(action)){
-					showInfo = false;
-				}
-				else if("show-info".equals(action)){
-					showInfo = true;
-				}
+				appContext.getEventManager().fireEvent(this, new NeedShowOrHideActionPanel());
 			}
 			
 		});
@@ -150,7 +167,7 @@ public class TreeMenu extends JPopupMenu implements HasCellConst {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CommandService.invoke(new AddNodeLinkCandidate());
+				appContext.getCommandService().invoke(new AddNodeLinkCandidate());
 				
 			}
 		});
@@ -159,10 +176,20 @@ public class TreeMenu extends JPopupMenu implements HasCellConst {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CommandService.invoke(new CreateNodeLink());
+				appContext.getCommandService().invoke(new CreateNodeLink());
 			}
 		});
 		
+	}
+	
+	@EventListener(HideActionPanel.class)
+	void hideInfo(){
+		showInfo = false;
+	}
+	
+	@EventListener(ShowActionPanel.class)
+	void showInfo(){
+		showInfo = true;
 	}
 
 

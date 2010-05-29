@@ -16,6 +16,7 @@ import ru.edolganov.knowledge.main.ui.ExceptionHandler;
 import ru.edolganov.knowledge.main.ui.MainWindow;
 import ru.edolganov.knowledge.persist.fs.FSPersist;
 import ru.edolganov.knowledge.tools.NodeObjectsCache;
+import ru.edolganov.knowledge.tools.SessionCache;
 
 
 public class App {
@@ -28,12 +29,14 @@ public class App {
 	
 	
 
-	private MainWindow ui;
 	private AppContext appContext;
+	private MainWindow ui;
 	private EventManager eventManager;
 	private CommandService commandService;
 	private ExceptionHandler exceptionHandler;
 	private NodeObjectsCache nodeObjectsCache;
+	private FSPersist fsPersist;
+	private SessionCache sessionCache;
 	
 	
 	private App(){
@@ -45,8 +48,6 @@ public class App {
 		initUI();
 		postInitContext();
 
-		
-		new FSPersist(appContext);
 		commandService.invoke(new InitControllers());
 		
 		
@@ -74,6 +75,12 @@ public class App {
 		
 		nodeObjectsCache = new NodeObjectsCache();
 		appContext.setNodeObjectsCache(nodeObjectsCache);
+		
+		fsPersist = new FSPersist();
+		appContext.setPersist(fsPersist);
+		
+		sessionCache = new SessionCache();
+		appContext.setSessionCache(sessionCache);
 	}
 	
 
@@ -114,6 +121,7 @@ public class App {
 		
 		commandService.setAppContext(appContext);
 		nodeObjectsCache.setAppContext(appContext);
+		fsPersist.setAppContext(appContext);
 	}
 	
 	

@@ -8,6 +8,7 @@ import ru.chapaj.util.event.EventListener;
 import ru.chapaj.util.ui.controller.GenericController;
 import ru.edolganov.knowledge.AppContext;
 import ru.edolganov.knowledge.core.command.Command;
+import ru.edolganov.knowledge.persist.fs.FSPersist;
 import ru.edolganov.knowledge.tools.NodeObjectsCache;
 
 public abstract class Controller<T> extends GenericController<T> {
@@ -19,7 +20,7 @@ public abstract class Controller<T> extends GenericController<T> {
 	}
 	
 	
-	private AppContext appContext;
+	protected AppContext appContext;
 
 	public AppContext getAppContext() {
 		return appContext;
@@ -46,8 +47,8 @@ public abstract class Controller<T> extends GenericController<T> {
 		return appContext.getNodeObjectsCache();
 	}
 	
-	protected <B extends Event<?>,C extends Event<?>> void fireEventCallback(EventCallback<B,C> eventCallback){
-		appContext.getEventManager().fireEventCallback(this, eventCallback);
+	protected FSPersist getPersist(){
+		return appContext.getPersist();
 	}
 
 }
