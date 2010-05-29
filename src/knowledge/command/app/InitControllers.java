@@ -29,7 +29,7 @@ public class InitControllers extends Command<Void> {
 
 	@Override
 	protected Void doAction() {
-		PackageExplorer.find("ru.edolganov", new PackageExplorer.Callback(){
+		PackageExplorer.find("knowledge", new PackageExplorer.Callback(){
 
 			@Override
 			public void found(Class<?> clazz) {
