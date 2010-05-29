@@ -2,8 +2,6 @@ package ru.edolganov.knowledge.main.controller.tree;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,15 +11,18 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import model.knowledge.Dir;
-import model.knowledge.Node;
 import model.knowledge.NodeLink;
 import model.knowledge.RootElement;
-import ru.chapaj.util.lang.ProxyUtil;
+import ru.chapaj.util.event.annotation.EventListener;
 import ru.chapaj.util.swing.tree.ExtendTree;
 import ru.chapaj.util.swing.tree.TreeNodeAdapter;
 import ru.chapaj.util.swing.tree.ExtendTree.SelectModel;
 import ru.edolganov.knowledge.core.controller.Controller;
 import ru.edolganov.knowledge.core.controller.ControllerInfo;
+import ru.edolganov.knowledge.event.persist.ChildAdded;
+import ru.edolganov.knowledge.event.persist.NodeDeleted;
+import ru.edolganov.knowledge.event.persist.NodeUpdated;
+import ru.edolganov.knowledge.main.MainConst;
 import ru.edolganov.knowledge.main.ui.MainWindow;
 import ru.edolganov.knowledge.main.ui.tree.HasCellConst;
 import ru.edolganov.knowledge.main.ui.tree.MainCellRender;
@@ -29,7 +30,6 @@ import ru.edolganov.knowledge.main.ui.tree.MainCellRender;
 @ControllerInfo(target=MainWindow.class)
 public class TreeController extends Controller<MainWindow> implements HasCellConst{
 
-	private static final String TREE_NODE = "tree-node";
 	ExtendTree tree;
 	JTextField path;
 	
@@ -45,7 +45,7 @@ public class TreeController extends Controller<MainWindow> implements HasCellCon
 		path = ui.path;
 		path.setEditable(false);
 		//path.setBackground(Color.WHITE);
-		treeMenu = new TreeMenu(tree);
+		treeMenu = new TreeMenu(tree, appContext);
 		tree.init(
 				ExtendTree.createTreeModel(null), 
 				true, 
@@ -71,42 +71,6 @@ public class TreeController extends Controller<MainWindow> implements HasCellCon
 			
 		});
 		
-		dao.addListener(new DAOEventAdapter(){
-
-			@Override
-			public void onAdded(RootElement parent, RootElement child) {
-				DefaultMutableTreeNode parentNode = dao.getCache().get(parent, TREE_NODE, DefaultMutableTreeNode.class);
-				DefaultMutableTreeNode childNode = dao.getCache().get(child, TREE_NODE, DefaultMutableTreeNode.class);
-				if(childNode != null){
-					tree.moveNode(childNode, parentNode);
-				} else {
-					DefaultMutableTreeNode createTreeNode = createTreeNode(child);
-					tree.addChild(parentNode, createTreeNode);
-					tree.setSelectionPath(createTreeNode);
-					tree.requestFocus();
-				}
-				for(DAOEventListener l : listeners) l.onAdded(parent, child);
-			}
-			
-			@Override
-			public void onDeleted(RootElement node) {
-				DefaultMutableTreeNode treeNode = dao.getCache().get(node, TREE_NODE, DefaultMutableTreeNode.class);
-				DefaultMutableTreeNode parent = (DefaultMutableTreeNode)treeNode.getParent();
-				tree.model().removeNodeFromParent(treeNode);
-				if(parent != null && !parent.isRoot()){
-					tree.setSelectionPath(parent);
-					tree.requestFocus();
-				}
-			}
-			
-			@Override
-			public void onUpdated(RootElement node) {
-				DefaultMutableTreeNode treeNode = dao.getCache().get(node, TREE_NODE, DefaultMutableTreeNode.class);
-				treeNode.setUserObject(node);
-				tree.model().reload(treeNode);
-			}
-			
-		});
 		path.addMouseListener(new MouseAdapter(){
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -120,6 +84,42 @@ public class TreeController extends Controller<MainWindow> implements HasCellCon
 		});
 		
 		fillTree();
+	}
+	
+	@EventListener(ChildAdded.class)
+	void onNodeAdded(ChildAdded added){
+		RootElement parent = added.getData().first;
+		RootElement child = added.getData().second;
+		
+		DefaultMutableTreeNode parentNode = getCache().get(parent, MainConst.tree_node.toString());
+		DefaultMutableTreeNode childNode = getCache().get(child, MainConst.tree_node.toString());
+		if(childNode != null){
+			tree.moveNode(childNode, parentNode);
+		} else {
+			DefaultMutableTreeNode createTreeNode = createTreeNode(child);
+			tree.addChild(parentNode, createTreeNode);
+			tree.setSelectionPath(createTreeNode);
+			tree.requestFocus();
+		}
+	}
+	
+	@EventListener(NodeDeleted.class)
+	void onDeleted(NodeDeleted deleted){
+		DefaultMutableTreeNode treeNode = getCache().get(deleted.getData(), MainConst.tree_node.toString());
+		DefaultMutableTreeNode parent = (DefaultMutableTreeNode)treeNode.getParent();
+		tree.model().removeNodeFromParent(treeNode);
+		if(parent != null && !parent.isRoot()){
+			tree.setSelectionPath(parent);
+			tree.requestFocus();
+		}
+	}
+	
+	@EventListener(NodeUpdated.class)
+	void onUpdated(NodeUpdated updated){
+		RootElement node = updated.getData();
+		DefaultMutableTreeNode treeNode = getCache().get(node, MainConst.tree_node.toString());
+		treeNode.setUserObject(node);
+		tree.model().reload(treeNode);
 	}
 
 
@@ -165,7 +165,7 @@ public class TreeController extends Controller<MainWindow> implements HasCellCon
 		//long time = System.currentTimeMillis();
 		
 		LinkedList<QS> q = new LinkedList<QS>();
-		q.addLast(new QS(dao.getRoot().getNodes(),treeRoot));
+		q.addLast(new QS(getPersist().getRoot().getNodes(),treeRoot));
 		while(!q.isEmpty()){
 			QS s = q.removeFirst();
 			DefaultMutableTreeNode node = s.node;
@@ -176,7 +176,7 @@ public class TreeController extends Controller<MainWindow> implements HasCellCon
 			for(RootElement meta : s.list){
 				DefaultMutableTreeNode chNode = createTreeNode(meta);
 				node.add(chNode);
-				q.addLast(new QS(dao.getChildren(meta),chNode));
+				q.addLast(new QS(getPersist().getChildren(meta),chNode));
 			}
 		}
 		//System.out.println("tree filled after "+ ((System.currentTimeMillis() - time) / 1000.) + " sec");
@@ -192,7 +192,7 @@ public class TreeController extends Controller<MainWindow> implements HasCellCon
 		RootElement nodeCache = null;
 		if(meta instanceof NodeLink){
 			NodeLink nodeLink = (NodeLink) meta;
-			RootElement node = dao.find(nodeLink.getNodeRootUuid(), nodeLink.getNodeUuid());
+			RootElement node = getPersist().find(nodeLink.getNodeRootUuid(), nodeLink.getNodeUuid());
 			if(node == null){
 				treeData = nodeLink;
 				nodeCache = nodeLink;
@@ -208,7 +208,7 @@ public class TreeController extends Controller<MainWindow> implements HasCellCon
 		}
 		
 		DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(treeData);
-		dao.getCache().put(nodeCache,TREE_NODE, treeNode);
+		getCache().put(nodeCache,MainConst.tree_node.toString(), treeNode);
 		return treeNode;
 	}
 	

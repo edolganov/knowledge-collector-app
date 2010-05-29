@@ -11,8 +11,6 @@ import model.knowledge.Node;
 import model.knowledge.RootElement;
 import model.knowledge.Root;
 import ru.chapaj.util.collection.ListUtil;
-import ru.chapaj.util.event.EventCallback;
-import ru.chapaj.util.event.StopEventException;
 import ru.chapaj.util.event.annotation.EventListener;
 import ru.chapaj.util.lang.ClassUtil;
 import ru.chapaj.util.swing.tree.ExtendDefaultTreeModel;
@@ -21,8 +19,7 @@ import ru.edolganov.knowledge.command.tree.MoveNode;
 import ru.edolganov.knowledge.core.controller.Controller;
 import ru.edolganov.knowledge.core.controller.ControllerInfo;
 import ru.edolganov.knowledge.event.persist.ChildAdded;
-import ru.edolganov.knowledge.event.persist.NeedUpdateRoot;
-import ru.edolganov.knowledge.event.persist.RootUpdated;
+import ru.edolganov.knowledge.main.MainConst;
 import ru.edolganov.knowledge.main.ui.MainWindow;
 import ru.edolganov.knowledge.model.RootElementComparator;
 
@@ -60,43 +57,30 @@ public class SortTreeController extends Controller<MainWindow>{
 
 	@EventListener(ChildAdded.class)
 	public void sortNodes(ChildAdded added) {
-		final RootElement parent = added.getData().first;
+		RootElement parent = added.getData().first;
 		RootElement child = added.getData().second;
 		//update model
-		DefaultMutableTreeNode childInitNode = getCache().get(child, "tree-node", DefaultMutableTreeNode.class);
+		DefaultMutableTreeNode childInitNode = getCache().get(child, MainConst.tree_node.toString());
 		TreePath childPath = new TreePath(childInitNode.getPath());
-		final TreePath selectedPath = ui.tree.isPathSelected(childPath)? childPath : null;
+		TreePath selectedPath = ui.tree.isPathSelected(childPath)? childPath : null;
 		Root root = child.getParent();
 		List<RootElement> nodes = root.getNodes();
 		Collections.sort(nodes, nodeComparator);
-		final List<RootElement> nodes_ = nodes;
-		fireEvent(new NeedUpdateRoot(root));
 		
-		fireEventCallback(new EventCallback<NeedUpdateRoot, RootUpdated>(new NeedUpdateRoot(root),RootUpdated.class) {
-
-					@Override
-					public void onAction(Object source, RootUpdated event)
-							throws StopEventException {
-						//update tree
-						DefaultMutableTreeNode parentNode = getCache().get(parent, "tree-node", DefaultMutableTreeNode.class);
-
-						for (int i = 0; i < nodes_.size(); i++) {
-							DefaultMutableTreeNode childNode = getCache().get(nodes_.get(i), "tree-node", DefaultMutableTreeNode.class);
-							if(parentNode.getChildAt(i) != childNode){
-								parentNode.remove(childNode);
-								parentNode.insert(childNode, i);
-							}					
-						}
-						ui.tree.model().reload(parentNode);
-						if(selectedPath != null) ui.tree.setSelectionPath(selectedPath);
-					}
-		});
-
-	}
-	
-	@EventListener(RootUpdated.class)
-	void rootUpdated(RootUpdated rootUpdated){
+		getPersist().updateRoot(root);
 		
+		//update tree
+		DefaultMutableTreeNode parentNode = getCache().get(parent, MainConst.tree_node.toString());
+
+		for (int i = 0; i < nodes.size(); i++) {
+			DefaultMutableTreeNode childNode = getCache().get(nodes.get(i), MainConst.tree_node.toString());
+			if(parentNode.getChildAt(i) != childNode){
+				parentNode.remove(childNode);
+				parentNode.insert(childNode, i);
+			}					
+		}
+		ui.tree.model().reload(parentNode);
+		if(selectedPath != null) ui.tree.setSelectionPath(selectedPath);
 	}
 
 	private void moveNode(boolean down) {
@@ -141,19 +125,14 @@ public class SortTreeController extends Controller<MainWindow>{
 		
 		final int newIndex_ = newIndex;
 		
-		fireEventCallback(new EventCallback<NeedUpdateRoot, RootUpdated>(new NeedUpdateRoot(root),RootUpdated.class) {
-
-			@Override
-			public void onAction(Object source, RootUpdated event)
-					throws StopEventException {
-				//update tree
-				ExtendDefaultTreeModel model = ui.tree.model();
-				model.removeNodeFromParent(node);
-				model.insertNodeInto(node, parent, newIndex_);
-				TreePath treePath = new TreePath(node.getPath());
-				ui.tree.setSelectionPath(treePath);
-			}
-		});
+		getPersist().updateRoot(root);
+		
+		//update tree
+		ExtendDefaultTreeModel model = ui.tree.model();
+		model.removeNodeFromParent(node);
+		model.insertNodeInto(node, parent, newIndex_);
+		TreePath treePath = new TreePath(node.getPath());
+		ui.tree.setSelectionPath(treePath);
 
 	}
 	

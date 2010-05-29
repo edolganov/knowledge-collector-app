@@ -1,22 +1,56 @@
 package ru.edolganov.knowledge.persist.fs;
 
-import ru.chapaj.util.event.annotation.LastEventListener;
+import java.util.List;
+
+import model.knowledge.Root;
+import model.knowledge.RootElement;
 import ru.edolganov.knowledge.AppContext;
-import ru.edolganov.knowledge.event.persist.NeedAddChild;
 
 
 public class FSPersist  {
 	
 	AppContext appContext;
 
-	public FSPersist(AppContext appContext) {
+	public FSPersist() {
+	}
+
+	public void setAppContext(AppContext appContext) {
 		this.appContext = appContext;
+		appContext.getEventManager().addObjectMethodListeners(this);
+	}
+
+	public void addChild(RootElement parent, RootElement node) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void updateRoot(Root root) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Root getRoot() {
+		// TODO Auto-generated method stub
+		return new Root();
+	}
+
+	public List<RootElement> getChildren(RootElement node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public RootElement find(String nodeRootUuid, String nodeUuid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void delete(RootElement node) {
+		// TODO Auto-generated method stub
+		
 	}
 	
-	@LastEventListener(NeedAddChild.class)
-	public void addChild(NeedAddChild event){
-		System.out.println("call addChild");
-	}
+	
+	
 	
 
 
