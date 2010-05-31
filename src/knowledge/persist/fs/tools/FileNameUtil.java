@@ -1,4 +1,4 @@
-package knowledge.tools;
+package knowledge.persist.fs.tools;
 
 import java.util.Arrays;
 

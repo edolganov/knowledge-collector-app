@@ -7,10 +7,15 @@ import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import ru.chapaj.util.Check;
+import ru.chapaj.util.event.EventManager;
+
 import model.knowledge.Root;
 
 public class RootCache {
 	
+	EventManager eventManager;
+
 	ReadWriteLock lock = new ReentrantReadWriteLock();
 	
 	//[path - root]
@@ -28,6 +33,12 @@ public class RootCache {
 		List<Root> chidren = new LinkedList<Root>();
 		Root parent;
 		String dirName;
+	}
+	
+	
+	public RootCache(EventManager eventManager) {
+		super();
+		this.eventManager = eventManager;
 	}
 	
 	public void putRoot(Root root){
@@ -62,7 +73,7 @@ public class RootCache {
 	 * Не очень красивое (полный перебор), но простое решение обновления кеша
 	 * @param pathPattern
 	 */
-	public List<Root> deleteAllRoots(String pathPattern) {
+	public void deleteAllRoots(String pathPattern) {
 		ArrayList<Root> out = new ArrayList<Root>();
 		
 		lock.writeLock().lock();
@@ -81,15 +92,16 @@ public class RootCache {
 			lock.writeLock().unlock();
 		}
 		
-		return out;
+		if(!Check.isEmpty(out)){
+			//TODO //eventManager.fireEvent(this, out);
+		}
 	}
 	
 	/**
 	 * Не очень красивое (полный перебор), но простое решение обновления кеша
 	 * @param pathPattern
 	 */
-	public List<Root> renameAllRoots(String oldPathPattern, String newPathPattern) {
-		ArrayList<Root> out = new ArrayList<Root>();
+	public void renameAllRoots(String oldPathPattern, String newPathPattern) {
 		
 		lock.writeLock().lock();
 		try {
@@ -108,13 +120,11 @@ public class RootCache {
 				root.setDirPath(newPath);
 				rootsPathMap.put(root.getDirPath(), root);
 				
-				out.add(root);
 			}
 		} finally {
 			lock.writeLock().unlock();
 		}
 		
-		return out;
 	}
 
 }

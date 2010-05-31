@@ -43,7 +43,8 @@ public class MoveChild extends Command<Void>{
 
 		INodeManager nodeManager = context.getNodeManagerMap().get(child.getClass());
 		if(nodeManager != null){
-			nodeManager.move(oldRoot,child);
+			Pair<String, String> result = nodeManager.move(oldRoot,child);
+			context.getRootCache().renameAllRoots(result.first, result.second);
 		}
 
 		invokeNext(new SaveRoot(oldRoot));

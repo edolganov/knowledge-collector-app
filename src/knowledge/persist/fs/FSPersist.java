@@ -5,6 +5,7 @@ import java.util.List;
 import knowledge.AppContext;
 import knowledge.persist.fs.command.Command;
 import knowledge.persist.fs.command.CommandService;
+import knowledge.persist.fs.command.main.AddChild;
 import knowledge.persist.fs.command.main.GetChildren;
 import knowledge.persist.fs.command.main.GetRoot;
 import knowledge.persist.fs.model.DirManager;
@@ -44,7 +45,7 @@ public class FSPersist  {
 		dataStore = new DataStore();
 		context.setDataStore(dataStore);
 		
-		rootCache = new RootCache();
+		rootCache = new RootCache(appContext.getEventManager());
 		context.setRootCache(rootCache);
 		
 		nodeManagerMap = new NodeManagerMap();
@@ -64,9 +65,8 @@ public class FSPersist  {
 	}
 
 
-	public void addChild(RootElement parent, RootElement node) {
-		// TODO Auto-generated method stub
-		
+	public void addChild(RootElement parent, RootElement child) {
+		invoke(new AddChild(parent, child));
 	}
 
 	public void updateRoot(Root root) {
