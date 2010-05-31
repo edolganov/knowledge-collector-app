@@ -3,6 +3,7 @@ package knowledge.persist.fs;
 import knowledge.AppContext;
 import knowledge.persist.fs.model.NodeManagerMap;
 import knowledge.persist.fs.tools.DataStore;
+import knowledge.persist.fs.tools.DelManager;
 import knowledge.persist.fs.tools.RootCache;
 
 public class PersistContext {
@@ -12,8 +13,19 @@ public class PersistContext {
 	RootCache rootCache;
 	Constants constants = new Constants();
 	NodeManagerMap nodeManagerMap;
+	DelManager delManager;
 	
 	
+	
+	
+
+	public DelManager getDelManager() {
+		return delManager;
+	}
+
+	public void setDelManager(DelManager delManager) {
+		this.delManager = delManager;
+	}
 
 	public NodeManagerMap getNodeManagerMap() {
 		return nodeManagerMap;

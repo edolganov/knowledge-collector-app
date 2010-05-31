@@ -21,5 +21,12 @@ public interface INodeManager<T extends RootElement> {
 	 */
 	Pair<String, String> move(Root oldRoot, T node);
 
+	/**
+	 * Удалить все файлы связанные с нодой
+	 * @param node
+	 * @return deletedDirPath
+	 */
+	String delete(T node) throws Exception;
+
 
 }
