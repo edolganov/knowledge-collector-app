@@ -13,7 +13,7 @@ public abstract class Command<T> {
 	}
 
 	
-	protected abstract T doAction();
+	protected abstract T doAction() throws Exception;
 	
 	protected <B> B invokeNext(Command<B> b) {
 		return commandService.invokeNext(this, b);
