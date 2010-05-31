@@ -6,13 +6,17 @@ import knowledge.AppContext;
 import knowledge.persist.fs.command.Command;
 import knowledge.persist.fs.command.CommandService;
 import knowledge.persist.fs.command.main.AddChild;
+import knowledge.persist.fs.command.main.DeleteElement;
+import knowledge.persist.fs.command.main.FindElement;
 import knowledge.persist.fs.command.main.GetChildren;
 import knowledge.persist.fs.command.main.GetRoot;
+import knowledge.persist.fs.command.main.SaveRoot;
 import knowledge.persist.fs.model.DirManager;
 import knowledge.persist.fs.model.LinkManager;
 import knowledge.persist.fs.model.NodeManagerMap;
 import knowledge.persist.fs.model.NoteManager;
 import knowledge.persist.fs.tools.DataStore;
+import knowledge.persist.fs.tools.DelManager;
 import knowledge.persist.fs.tools.RootCache;
 
 import model.knowledge.Dir;
@@ -29,6 +33,7 @@ public class FSPersist  {
 	DataStore dataStore;
 	RootCache rootCache;
 	NodeManagerMap nodeManagerMap;
+	DelManager delManager;
 	
 	
 	String mainDirPath;
@@ -48,11 +53,16 @@ public class FSPersist  {
 		rootCache = new RootCache(appContext.getEventManager());
 		context.setRootCache(rootCache);
 		
+		delManager = new DelManager();
+		context.setDelManager(delManager);
+		
 		nodeManagerMap = new NodeManagerMap();
-		nodeManagerMap.put(Dir.class, new DirManager());
-		nodeManagerMap.put(Link.class, new LinkManager());
-		nodeManagerMap.put(Note.class, new NoteManager());
+		nodeManagerMap.put(Dir.class, new DirManager(delManager));
+		nodeManagerMap.put(Link.class, new LinkManager(delManager));
+		nodeManagerMap.put(Note.class, new NoteManager(delManager));
 		context.setNodeManagerMap(nodeManagerMap);
+		
+
 		
 		commandService = new CommandService();
 		commandService.setContext(context);
@@ -70,8 +80,8 @@ public class FSPersist  {
 	}
 
 	public void updateRoot(Root root) {
-		// TODO Auto-generated method stub
-		
+		if(root == null) return;
+		invoke(new SaveRoot(root));
 	}
 
 	public Root getRoot() {
@@ -85,13 +95,11 @@ public class FSPersist  {
 	}
 
 	public RootElement find(String nodeRootUuid, String nodeUuid) {
-		// TODO Auto-generated method stub
-		return null;
+		return invoke(new FindElement(nodeRootUuid, nodeUuid));
 	}
 
 	public void delete(RootElement node) {
-		// TODO Auto-generated method stub
-		
+		invoke(new DeleteElement(node));
 	}
 	
 	

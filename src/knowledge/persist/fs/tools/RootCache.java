@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import knowledge.event.persist.SubNodeDeleted;
+
 import ru.chapaj.util.Check;
 import ru.chapaj.util.event.EventManager;
 
@@ -74,7 +76,7 @@ public class RootCache {
 	 * @param pathPattern
 	 */
 	public void deleteAllRoots(String pathPattern) {
-		ArrayList<Root> out = new ArrayList<Root>();
+		ArrayList<model.knowledge.RootElement> out = new ArrayList<model.knowledge.RootElement>();
 		
 		lock.writeLock().lock();
 		try {
@@ -85,7 +87,7 @@ public class RootCache {
 			for(String key : keys){
 				Root root = rootsPathMap.remove(key);
 				rootsUuidMap.remove(root.getUuid());
-				out.add(root);
+				out.addAll(root.getNodes());
 			}
 			
 		} finally {
@@ -93,7 +95,7 @@ public class RootCache {
 		}
 		
 		if(!Check.isEmpty(out)){
-			//TODO //eventManager.fireEvent(this, out);
+			eventManager.fireEvent(this, new SubNodeDeleted(out));
 		}
 	}
 	

@@ -4,7 +4,11 @@ import java.util.HashMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import ru.chapaj.util.event.annotation.EventListener;
+
 import knowledge.AppContext;
+import knowledge.event.persist.NodeDeleted;
+import knowledge.event.persist.SubNodeDeleted;
 import model.knowledge.RootElement;
 
 /**
@@ -80,11 +84,23 @@ public class NodeObjectsCache {
 
 	
 
-
-	void remove(RootElement node) {
+	@EventListener(NodeDeleted.class)
+	void remove(NodeDeleted deleted) {
 		lock.writeLock().lock();
 		try {
-			objectsMap.remove(getNodeKey(node));
+			objectsMap.remove(getNodeKey(deleted.getData()));
+		} finally {
+			lock.writeLock().unlock();
+		}
+	}
+	
+	@EventListener(SubNodeDeleted.class)
+	void remove(SubNodeDeleted deleted){
+		lock.writeLock().lock();
+		try {
+			for(RootElement node : deleted.getData()){
+				objectsMap.remove(getNodeKey(node));
+			}
 		} finally {
 			lock.writeLock().unlock();
 		}
