@@ -1,24 +1,22 @@
 package ru.kc.core.store;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Set;
+
+import model.knowledge.Container;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.reflections.Reflections;
-import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 import ru.chapaj.util.store.XmlStore;
 import ru.chapaj.util.xml.ObjectToXMLConverter;
 
-import model.knowledge.Container;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public class StoreService {
 	
