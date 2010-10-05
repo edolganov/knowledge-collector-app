@@ -8,7 +8,7 @@ import knowledge.core.command.Command;
 import knowledge.main.MainConst;
 
 import model.knowledge.NodeLink;
-import model.knowledge.RootElement;
+import model.knowledge.Element;
 
 public class CreateNodeLink extends Command<Void> {
 
@@ -18,10 +18,10 @@ public class CreateNodeLink extends Command<Void> {
 		DefaultMutableTreeNode curNode = mainWindow.tree.getCurrentNode();
 		
 		
-		RootElement[] nodes = invokeNext(new GetMoveElements(curNode, element));
+		Element[] nodes = invokeNext(new GetMoveElements(curNode, element));
 		if(nodes != null){
-			RootElement parent = nodes[0];
-			RootElement donor = nodes[1];
+			Element parent = nodes[0];
+			Element donor = nodes[1];
 			NodeLink link = new NodeLink();
 			link.setNodeUuid(donor.getUuid());
 			link.setNodeRootUuid(donor.getParent().getUuid());

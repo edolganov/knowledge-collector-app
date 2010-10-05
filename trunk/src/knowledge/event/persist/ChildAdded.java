@@ -1,14 +1,14 @@
 package knowledge.event.persist;
 
 
-import model.knowledge.RootElement;
+import model.knowledge.Element;
 
 import ru.chapaj.util.bean.Pair;
 import ru.chapaj.util.event.Event;
 
-public class ChildAdded extends Event<Pair<RootElement, RootElement>> {
+public class ChildAdded extends Event<Pair<Element, Element>> {
 
-	public ChildAdded(Pair<RootElement, RootElement> data) {
+	public ChildAdded(Pair<Element, Element> data) {
 		super(data);
 	}
 	

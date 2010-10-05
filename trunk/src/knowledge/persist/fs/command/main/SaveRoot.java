@@ -2,15 +2,15 @@ package knowledge.persist.fs.command.main;
 
 import java.io.File;
 
-import model.knowledge.Root;
+import model.knowledge.Container;
 import knowledge.persist.fs.command.Command;
 
 public class SaveRoot extends Command<Void> {
 	
-	Root root;
+	Container root;
 	
 
-	public SaveRoot(Root root) {
+	public SaveRoot(Container root) {
 		super();
 		this.root = root;
 	}

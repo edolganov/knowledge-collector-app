@@ -3,8 +3,6 @@ package model.knowledge;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.chapaj.util.UuidGenerator;
-
 import model.HavingUuid;
 import model.knowledge.role.Parent;
 import model.tree.TreeSnapshotRoot;
@@ -14,10 +12,10 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 
 @XStreamAlias("container")
-public class Root implements Parent, HavingUuid {
+public class Container implements Parent, HavingUuid {
 	
 	// [15.08.2009] jenua.dolganov: все дети лежат в перемешку
-	private List<RootElement> nodes;
+	private List<Element> nodes;
 	private String uuid;
 	
 	@XStreamOmitField
@@ -26,12 +24,12 @@ public class Root implements Parent, HavingUuid {
 	private TreeSnapshotRoot treeSnapshots;
 	
 
-	public List<RootElement> getNodes() {
-		if(nodes == null) nodes = new ArrayList<RootElement>();
+	public List<Element> getNodes() {
+		if(nodes == null) nodes = new ArrayList<Element>();
 		return nodes;
 	}
 
-	public void setNodes(ArrayList<RootElement> nodes) {
+	public void setNodes(ArrayList<Element> nodes) {
 		this.nodes = nodes;
 	}
 	
@@ -57,17 +55,6 @@ public class Root implements Parent, HavingUuid {
 
 	@Override
 	public String getUuid() {
-		if(uuid == null) {
-			uuid = UuidGenerator.simpleUuid();
-		}
-		return uuid;
-	}
-	
-	/**
-	 * Получить id рута даже если он null
-	 * @return
-	 */
-	public String getUnsafeUuid(){
 		return uuid;
 	}
 	
@@ -75,4 +62,14 @@ public class Root implements Parent, HavingUuid {
 		this.uuid = uuid;
 	}
 
+	@Override
+	public String toString() {
+		return "Container [uuid=" + uuid + ", dirPath=" + dirPath
+				+ ", treeSnapshots=" + treeSnapshots + ", nodes=" + nodes + "]";
+	}
+
+
+
+	
+	
 }

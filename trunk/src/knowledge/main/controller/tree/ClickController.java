@@ -21,7 +21,7 @@ import knowledge.main.ui.MainWindow;
 
 import model.knowledge.Link;
 import model.knowledge.Node;
-import model.knowledge.RootElement;
+import model.knowledge.Element;
 
 import ru.chapaj.util.os.BareBonesBrowserLaunch;
 import ru.chapaj.util.os.win.WinUtil;
@@ -109,7 +109,7 @@ public class ClickController extends Controller<MainWindow> implements Clipboard
 	}
 	
 	private void doClickAction(final MainWindow ui) {
-		RootElement node = ui.tree.getCurrentObject(Node.class);
+		Element node = ui.tree.getCurrentObject(Node.class);
 		if(node instanceof Link){
 			try{
 				String query = ((Link)node).getUrl();

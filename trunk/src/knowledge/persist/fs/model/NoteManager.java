@@ -7,7 +7,7 @@ import knowledge.persist.fs.tools.DelManager;
 import knowledge.persist.fs.tools.FileNameUtil;
 import ru.chapaj.util.bean.Pair;
 import model.knowledge.Note;
-import model.knowledge.Root;
+import model.knowledge.Container;
 
 public class NoteManager extends AbstractNodeManager implements INodeManager<Note> {
 	
@@ -26,7 +26,7 @@ public class NoteManager extends AbstractNodeManager implements INodeManager<Not
 	}
 
 	@Override
-	public Pair<String, String> move(Root oldRoot, Note node) {
+	public Pair<String, String> move(Container oldRoot, Note node) {
 		String name = node.getName();
 		String dirName = getDirName(name);
 		String textName = getTextFileName(name);

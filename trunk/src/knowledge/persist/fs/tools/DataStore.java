@@ -2,15 +2,15 @@ package knowledge.persist.fs.tools;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-import model.knowledge.Root;
+import model.knowledge.Container;
 import ru.chapaj.util.lang.PackageExplorer;
 import ru.chapaj.util.store.XmlStore;
 import ru.chapaj.util.xml.ObjectToXMLConverter;
 
-public class DataStore extends XmlStore<Root> {
+public class DataStore extends XmlStore<Container> {
 
 	@Override
-	protected void config(final ObjectToXMLConverter<Root> converter) {
+	protected void config(final ObjectToXMLConverter<Container> converter) {
 		PackageExplorer.find("model", new PackageExplorer.Callback(){
 
 			@Override

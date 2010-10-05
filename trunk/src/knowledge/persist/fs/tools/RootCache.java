@@ -12,7 +12,7 @@ import knowledge.event.persist.SubNodeDeleted;
 import ru.chapaj.util.Check;
 import ru.chapaj.util.event.EventManager;
 
-import model.knowledge.Root;
+import model.knowledge.Container;
 
 public class RootCache {
 	
@@ -21,9 +21,9 @@ public class RootCache {
 	ReadWriteLock lock = new ReentrantReadWriteLock();
 	
 	//[path - root]
-	HashMap<String, Root> rootsPathMap = new HashMap<String, Root>();
+	HashMap<String, Container> rootsPathMap = new HashMap<String, Container>();
 	//[uuid - root]
-	HashMap<String, Root> rootsUuidMap = new HashMap<String, Root>();
+	HashMap<String, Container> rootsUuidMap = new HashMap<String, Container>();
 	
 	// [14.10.2009] jenua.dolganov: более корректная модель для кеширования рутов 
 	// строим дерево из рутов, храня название их папки (или весь путь для корневого рута)
@@ -31,9 +31,9 @@ public class RootCache {
 	// только исправить один элемент
 	@Deprecated
 	static class RootElement {
-		Root root;
-		List<Root> chidren = new LinkedList<Root>();
-		Root parent;
+		Container root;
+		List<Container> chidren = new LinkedList<Container>();
+		Container parent;
 		String dirName;
 	}
 	
@@ -43,7 +43,7 @@ public class RootCache {
 		this.eventManager = eventManager;
 	}
 	
-	public void putRoot(Root root){
+	public void putRoot(Container root){
 		lock.writeLock().lock();
 		try {
 			rootsPathMap.put(root.getDirPath(), root);
@@ -53,7 +53,7 @@ public class RootCache {
 		}
 	}
 	
-	public Root getRoot(String path){
+	public Container getRoot(String path){
 		lock.readLock().lock();
 		try {
 			return rootsPathMap.get(path);
@@ -62,7 +62,7 @@ public class RootCache {
 		}
 	}
 	
-	public Root getRootByUuid(String rootUuid) {
+	public Container getRootByUuid(String rootUuid) {
 		lock.readLock().lock();
 		try {
 			return rootsUuidMap.get(rootUuid);
@@ -76,7 +76,7 @@ public class RootCache {
 	 * @param pathPattern
 	 */
 	public void deleteAllRoots(String pathPattern) {
-		ArrayList<model.knowledge.RootElement> out = new ArrayList<model.knowledge.RootElement>();
+		ArrayList<model.knowledge.Element> out = new ArrayList<model.knowledge.Element>();
 		
 		lock.writeLock().lock();
 		try {
@@ -85,7 +85,7 @@ public class RootCache {
 			for(String key : rootsPathMap.keySet())
 				if(key.startsWith(pathPattern))keys.add(key);
 			for(String key : keys){
-				Root root = rootsPathMap.remove(key);
+				Container root = rootsPathMap.remove(key);
 				rootsUuidMap.remove(root.getUuid());
 				out.addAll(root.getNodes());
 			}
@@ -114,7 +114,7 @@ public class RootCache {
 			for(String key : rootsPathMap.keySet())
 				if(key.startsWith(oldPathPattern))keys.add(key);
 			for(String key : keys){
-				Root root = rootsPathMap.remove(key);
+				Container root = rootsPathMap.remove(key);
 				String dirPath = root.getDirPath();
 				String newPath = newPathPattern;
 				String part = dirPath.substring(oldPatternLenth);

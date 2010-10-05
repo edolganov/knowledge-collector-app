@@ -1,13 +1,13 @@
 package knowledge.event.persist;
 
 
-import model.knowledge.RootElement;
+import model.knowledge.Element;
 
 import ru.chapaj.util.event.Event;
 
-public class NodeDeleted extends Event<RootElement> {
+public class NodeDeleted extends Event<Element> {
 
-	public NodeDeleted(RootElement data) {
+	public NodeDeleted(Element data) {
 		super(data);
 	}
 	

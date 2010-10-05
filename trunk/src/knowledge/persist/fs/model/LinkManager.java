@@ -7,7 +7,7 @@ import knowledge.persist.fs.tools.DelManager;
 import knowledge.persist.fs.tools.FileNameUtil;
 import ru.chapaj.util.bean.Pair;
 import model.knowledge.Link;
-import model.knowledge.Root;
+import model.knowledge.Container;
 
 public class LinkManager extends AbstractNodeManager implements INodeManager<Link> {
 	
@@ -26,7 +26,7 @@ public class LinkManager extends AbstractNodeManager implements INodeManager<Lin
 	}
 
 	@Override
-	public Pair<String, String> move(Root oldRoot, Link node) {
+	public Pair<String, String> move(Container oldRoot, Link node) {
 		String dirName = getDirName(node);
 		String oldPath = FileNameUtil.getFilePath(oldRoot.getDirPath(), dirName);
 		String newRootPath = node.getParent().getDirPath();

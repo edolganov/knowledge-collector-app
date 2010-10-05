@@ -12,22 +12,22 @@ import model.knowledge.role.Parent;
  * @author jenua.dolganov
  *
  */
-public abstract class RootElement implements Parent, HavingUuid {
+public abstract class Element implements Parent, HavingUuid {
 
 	protected String uuid;
 	protected Long createDate;
 	@XStreamOmitField
-	private Root parent;
+	private Container parent;
 
-	public RootElement() {
+	public Element() {
 		super();
 	}
 
-	public Root getParent() {
+	public Container getParent() {
 		return parent;
 	}
 
-	public void setParent(Root parent) {
+	public void setParent(Container parent) {
 		this.parent = parent;
 	}
 
@@ -54,7 +54,7 @@ public abstract class RootElement implements Parent, HavingUuid {
 	public boolean equals(Object obj) {
 		if(obj == null) return false;
 		if(!getClass().equals(obj.getClass())) return false;
-		if(!getUuid().equals(((RootElement)obj).getUuid())) return false;
+		if(!getUuid().equals(((Element)obj).getUuid())) return false;
 		
 		return true;
 	}
