@@ -16,8 +16,8 @@ import knowledge.main.ui.MainWindow;
 import knowledge.model.RootElementComparator;
 
 import model.knowledge.Node;
-import model.knowledge.RootElement;
-import model.knowledge.Root;
+import model.knowledge.Element;
+import model.knowledge.Container;
 import ru.chapaj.util.collection.ListUtil;
 import ru.chapaj.util.event.annotation.EventListener;
 import ru.chapaj.util.lang.ClassUtil;
@@ -28,7 +28,7 @@ import ru.chapaj.util.swing.tree.TreeNodeAdapter;
 public class SortTreeController extends Controller<MainWindow>{
 	
 	
-	private Comparator<RootElement> nodeComparator = new RootElementComparator();
+	private Comparator<Element> nodeComparator = new RootElementComparator();
 	
 	MainWindow ui;
 	
@@ -58,14 +58,14 @@ public class SortTreeController extends Controller<MainWindow>{
 
 	@EventListener(ChildAdded.class)
 	public void sortNodes(ChildAdded added) {
-		RootElement parent = added.getData().first;
-		RootElement child = added.getData().second;
+		Element parent = added.getData().first;
+		Element child = added.getData().second;
 		//update model
 		DefaultMutableTreeNode childInitNode = getCache().get(child, MainConst.tree_node.toString());
 		TreePath childPath = new TreePath(childInitNode.getPath());
 		TreePath selectedPath = ui.tree.isPathSelected(childPath)? childPath : null;
-		Root root = child.getParent();
-		List<RootElement> nodes = root.getNodes();
+		Container root = child.getParent();
+		List<Element> nodes = root.getNodes();
 		Collections.sort(nodes, nodeComparator);
 		
 		getPersist().updateRoot(root);
@@ -92,13 +92,13 @@ public class SortTreeController extends Controller<MainWindow>{
 		Object ob = node.getUserObject();
 		if(!(ob instanceof Node)) return;
 		
-		RootElement meta = (RootElement) ob;
-		Root root = meta.getParent();
-		List<RootElement> nodes = root.getNodes();
+		Element meta = (Element) ob;
+		Container root = meta.getParent();
+		List<Element> nodes = root.getNodes();
 		
 		int oldIndex = nodes.indexOf(meta);
 		int minIndex = oldIndex;
-		Class<? extends RootElement> nodeClass = meta.getClass();
+		Class<? extends Element> nodeClass = meta.getClass();
 		for(int i = oldIndex -1 ; i > -1; i--){
 			minIndex = i;
 			if(!ClassUtil.isValid(nodes.get(i).getClass(), nodeClass)){

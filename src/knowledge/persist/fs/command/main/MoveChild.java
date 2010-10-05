@@ -4,16 +4,16 @@ import knowledge.event.persist.ChildAdded;
 import knowledge.persist.fs.command.Command;
 import knowledge.persist.fs.command.main.check.CheckNoExist;
 import knowledge.persist.fs.model.INodeManager;
-import model.knowledge.Root;
-import model.knowledge.RootElement;
+import model.knowledge.Container;
+import model.knowledge.Element;
 import ru.chapaj.util.bean.Pair;
 
 public class MoveChild extends Command<Void>{
 	
-	RootElement parent;
-	RootElement child;
+	Element parent;
+	Element child;
 
-	public MoveChild(RootElement parent, RootElement child) {
+	public MoveChild(Element parent, Element child) {
 		super();
 		this.parent = parent;
 		this.child = child;
@@ -29,11 +29,11 @@ public class MoveChild extends Command<Void>{
 		
 		invokeNext(new CheckNoExist(parent,child));
 		
-		Root root = invokeNext(new GetNodeRoot(parent,true));
+		Container root = invokeNext(new GetNodeRoot(parent,true));
 		if(root == null) return null;
 		
 		//удаляем из старого рута ноду
-		Root oldRoot = child.getParent();
+		Container oldRoot = child.getParent();
 		oldRoot.getNodes().remove(child);
 		
 		//добавляем в новый рут ноду
@@ -52,7 +52,7 @@ public class MoveChild extends Command<Void>{
 		invokeNext(new SaveRoot(oldRoot));
 		invokeNext(new SaveRoot(root));
 		
-		fireEvent(new ChildAdded(new Pair<RootElement, RootElement>(parent, child)));
+		fireEvent(new ChildAdded(new Pair<Element, Element>(parent, child)));
 		return null;
 	}
 

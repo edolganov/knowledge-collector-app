@@ -26,7 +26,7 @@ import knowledge.event.ui.ShowActionPanel;
 import knowledge.main.ui.tree.HasCellConst;
 
 import model.knowledge.Dir;
-import model.knowledge.RootElement;
+import model.knowledge.Element;
 import model.knowledge.TextData;
 import ru.chapaj.util.event.annotation.EventListener;
 import ru.chapaj.util.swing.IconHelper;
@@ -79,7 +79,7 @@ public class TreeMenu extends JPopupMenu implements HasCellConst {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CommandService commandService = appContext.getCommandService();
-				RootElement dir = commandService.invoke(new NewDir());
+				Element dir = commandService.invoke(new NewDir());
 				commandService.invoke(new AddNode(dir));
 			}
 			
@@ -90,7 +90,7 @@ public class TreeMenu extends JPopupMenu implements HasCellConst {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CommandService commandService = appContext.getCommandService();
-				RootElement dir = commandService.invoke(new NewText());
+				Element dir = commandService.invoke(new NewText());
 				commandService.invoke(new AddNode(dir));
 			}
 			
@@ -101,7 +101,7 @@ public class TreeMenu extends JPopupMenu implements HasCellConst {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CommandService commandService = appContext.getCommandService();
-				RootElement dir = commandService.invoke(new NewLink());
+				Element dir = commandService.invoke(new NewLink());
 				commandService.invoke(new AddNode(dir));
 			}
 			
@@ -115,10 +115,10 @@ public class TreeMenu extends JPopupMenu implements HasCellConst {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				RootElement parent = tree.getParentObject(tree.getCurrentNode(), RootElement.class);
+				Element parent = tree.getParentObject(tree.getCurrentNode(), Element.class);
 				
 				CommandService commandService = appContext.getCommandService();
-				RootElement dir = commandService.invoke(new NewDir());
+				Element dir = commandService.invoke(new NewDir());
 				commandService.invoke(new AddTreeNode(parent,dir));
 			}
 			
@@ -128,10 +128,10 @@ public class TreeMenu extends JPopupMenu implements HasCellConst {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {				
-				RootElement parent = tree.getParentObject(tree.getCurrentNode(), RootElement.class);
+				Element parent = tree.getParentObject(tree.getCurrentNode(), Element.class);
 				
 				CommandService commandService = appContext.getCommandService();
-				RootElement dir = commandService.invoke(new NewText());
+				Element dir = commandService.invoke(new NewText());
 				commandService.invoke(new AddTreeNode(parent,dir));
 			}
 			
@@ -141,10 +141,10 @@ public class TreeMenu extends JPopupMenu implements HasCellConst {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				RootElement parent = tree.getParentObject(tree.getCurrentNode(), RootElement.class);
+				Element parent = tree.getParentObject(tree.getCurrentNode(), Element.class);
 				
 				CommandService commandService = appContext.getCommandService();
-				RootElement dir = commandService.invoke(new NewLink());
+				Element dir = commandService.invoke(new NewLink());
 				commandService.invoke(new AddTreeNode(parent,dir));
 			}
 			

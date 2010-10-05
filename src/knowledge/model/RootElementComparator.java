@@ -2,12 +2,12 @@ package knowledge.model;
 
 import java.util.Comparator;
 
-import model.knowledge.RootElement;
+import model.knowledge.Element;
 
-public class RootElementComparator implements Comparator<RootElement> {
+public class RootElementComparator implements Comparator<Element> {
 
 	@Override
-	public int compare(RootElement a, RootElement b) {
+	public int compare(Element a, Element b) {
 		return ModelClassComparator.compare(ModelClassComparator.index(a), ModelClassComparator.index(b));
 	}
 

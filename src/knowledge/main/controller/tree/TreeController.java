@@ -22,7 +22,7 @@ import knowledge.main.ui.tree.MainCellRender;
 
 import model.knowledge.Dir;
 import model.knowledge.NodeLink;
-import model.knowledge.RootElement;
+import model.knowledge.Element;
 import ru.chapaj.util.event.annotation.EventListener;
 import ru.chapaj.util.swing.tree.ExtendTree;
 import ru.chapaj.util.swing.tree.TreeNodeAdapter;
@@ -89,8 +89,8 @@ public class TreeController extends Controller<MainWindow> implements HasCellCon
 	
 	@EventListener(ChildAdded.class)
 	void onNodeAdded(ChildAdded added){
-		RootElement parent = added.getData().first;
-		RootElement child = added.getData().second;
+		Element parent = added.getData().first;
+		Element child = added.getData().second;
 		
 		DefaultMutableTreeNode parentNode = getCache().get(parent, MainConst.tree_node.toString());
 		DefaultMutableTreeNode childNode = getCache().get(child, MainConst.tree_node.toString());
@@ -117,7 +117,7 @@ public class TreeController extends Controller<MainWindow> implements HasCellCon
 	
 	@EventListener(NodeUpdated.class)
 	void onUpdated(NodeUpdated updated){
-		RootElement node = updated.getData();
+		Element node = updated.getData();
 		DefaultMutableTreeNode treeNode = getCache().get(node, MainConst.tree_node.toString());
 		treeNode.setUserObject(node);
 		tree.model().reload(treeNode);
@@ -152,9 +152,9 @@ public class TreeController extends Controller<MainWindow> implements HasCellCon
 
 
 	static class QS {
-		List<RootElement> list;
+		List<Element> list;
 		DefaultMutableTreeNode node;
-		public QS(List<RootElement> list, DefaultMutableTreeNode node) {
+		public QS(List<Element> list, DefaultMutableTreeNode node) {
 			super();
 			this.list = list;
 			this.node = node;
@@ -174,7 +174,7 @@ public class TreeController extends Controller<MainWindow> implements HasCellCon
 //			if(ob instanceof Dir){
 //				node.add(new DefaultMutableTreeNode(Cell.BUTTONS));
 //			}
-			for(RootElement meta : s.list){
+			for(Element meta : s.list){
 				DefaultMutableTreeNode chNode = createTreeNode(meta);
 				node.add(chNode);
 				q.addLast(new QS(getPersist().getChildren(meta),chNode));
@@ -187,13 +187,13 @@ public class TreeController extends Controller<MainWindow> implements HasCellCon
 		
 	}
 
-	private DefaultMutableTreeNode createTreeNode(RootElement meta) {
+	private DefaultMutableTreeNode createTreeNode(Element meta) {
 		
 		Object treeData = null;
-		RootElement nodeCache = null;
+		Element nodeCache = null;
 		if(meta instanceof NodeLink){
 			NodeLink nodeLink = (NodeLink) meta;
-			RootElement node = getPersist().find(nodeLink.getNodeRootUuid(), nodeLink.getNodeUuid());
+			Element node = getPersist().find(nodeLink.getNodeRootUuid(), nodeLink.getNodeUuid());
 			if(node == null){
 				treeData = nodeLink;
 				nodeCache = nodeLink;

@@ -7,7 +7,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  * @author jenua.dolganov
  */
 @XStreamAlias("node-link")
-public class NodeLink extends RootElement {
+public class NodeLink extends Element {
 	
 	String nodeUuid;
 	String nodeRootUuid;

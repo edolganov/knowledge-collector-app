@@ -1,8 +1,8 @@
 package knowledge.persist.fs.command.main.check;
 
 import model.knowledge.Node;
-import model.knowledge.Root;
-import model.knowledge.RootElement;
+import model.knowledge.Container;
+import model.knowledge.Element;
 import model.knowledge.role.Parent;
 import knowledge.persist.fs.command.Command;
 import knowledge.persist.fs.command.main.GetNodeRoot;
@@ -10,10 +10,10 @@ import knowledge.persist.fs.command.main.GetNodeRoot;
 public class CheckNoExist extends Command<Void>{
 	
 	Parent parent; 
-	RootElement child;
+	Element child;
 	
 
-	public CheckNoExist(Parent parent, RootElement child) {
+	public CheckNoExist(Parent parent, Element child) {
 		super();
 		this.parent = parent;
 		this.child = child;
@@ -25,9 +25,9 @@ public class CheckNoExist extends Command<Void>{
 	protected Void doAction() {
 		if(child instanceof Node){
 			Node childNode = (Node)child;
-			Root root = null;
-			if (parent instanceof Root) {
-				root = (Root) parent;
+			Container root = null;
+			if (parent instanceof Container) {
+				root = (Container) parent;
 			}
 			else if (parent instanceof Node) {
 				Node parentNode = (Node) parent;

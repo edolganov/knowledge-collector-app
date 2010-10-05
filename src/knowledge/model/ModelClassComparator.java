@@ -8,7 +8,7 @@ import model.knowledge.Dir;
 import model.knowledge.LocalLink;
 import model.knowledge.NetworkLink;
 import model.knowledge.Node;
-import model.knowledge.RootElement;
+import model.knowledge.Element;
 import model.knowledge.TextData;
 
 public class ModelClassComparator implements Comparator<Class<?>> {
@@ -19,11 +19,11 @@ public class ModelClassComparator implements Comparator<Class<?>> {
 		return compare(index((Class<? extends Node>)o1), index((Class<? extends Node>)o2));
 	}
 	
-	public static int index(RootElement meta){
+	public static int index(Element meta){
 		return index(meta.getClass());
 	}
 	
-	public static int index(Class<? extends RootElement> candidat){
+	public static int index(Class<? extends Element> candidat){
 		int out = Integer.MAX_VALUE;
 		if(ClassUtil.isValid(candidat, Dir.class)) out = 0;
 		else if(ClassUtil.isValid(candidat, TextData.class)) out = 10;

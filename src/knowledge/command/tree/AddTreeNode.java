@@ -3,15 +3,15 @@ package knowledge.command.tree;
 import knowledge.core.command.Command;
 import ru.chapaj.util.Check;
 import model.knowledge.Link;
-import model.knowledge.RootElement;
+import model.knowledge.Element;
 
 public class AddTreeNode extends Command<Void> {
 
 	
-	RootElement parent, node;
+	Element parent, node;
 	
 
-	public AddTreeNode(RootElement parent, RootElement node) {
+	public AddTreeNode(Element parent, Element node) {
 		super();
 		this.parent = parent;
 		this.node = node;

@@ -7,10 +7,10 @@ import knowledge.core.command.Command;
 
 import model.knowledge.Dir;
 import model.knowledge.Node;
-import model.knowledge.RootElement;
+import model.knowledge.Element;
 import model.knowledge.TextData;
 
-public class GetMoveElements extends Command<RootElement[]> {
+public class GetMoveElements extends Command<Element[]> {
 	
 	DefaultMutableTreeNode tagretNode; 
 	DefaultMutableTreeNode draggedNode;
@@ -27,7 +27,7 @@ public class GetMoveElements extends Command<RootElement[]> {
 
 
 	@Override
-	protected RootElement[] doAction() {
+	protected Element[] doAction() {
 		if(tagretNode == null || draggedNode == null) return null;
 		
 		if(draggedNode.isRoot()) return null;
@@ -62,7 +62,7 @@ public class GetMoveElements extends Command<RootElement[]> {
 		}
 		if(! valid) return null;
 		else {
-			return new RootElement[]{(RootElement)targetOb, (RootElement)draggedOb};
+			return new Element[]{(Element)targetOb, (Element)draggedOb};
 		}
 	}
 

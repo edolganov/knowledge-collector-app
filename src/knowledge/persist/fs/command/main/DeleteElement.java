@@ -3,16 +3,16 @@ package knowledge.persist.fs.command.main;
 import knowledge.event.persist.NodeDeleted;
 import knowledge.persist.fs.command.Command;
 import knowledge.persist.fs.model.INodeManager;
-import model.knowledge.Root;
-import model.knowledge.RootElement;
+import model.knowledge.Container;
+import model.knowledge.Element;
 
 public class DeleteElement extends Command<Void>{
 	
-	RootElement node;
+	Element node;
 	
 	
 
-	public DeleteElement(RootElement node) {
+	public DeleteElement(Element node) {
 		super();
 		this.node = node;
 	}
@@ -22,7 +22,7 @@ public class DeleteElement extends Command<Void>{
 	@SuppressWarnings("unchecked")
 	@Override
 	protected Void doAction() throws Exception {
-		Root root = node.getParent();
+		Container root = node.getParent();
 		root.getNodes().remove(node);
 		
 		INodeManager nodeManager = context.getNodeManagerMap().get(node.getClass());

@@ -9,7 +9,7 @@ import ru.chapaj.util.event.annotation.EventListener;
 import knowledge.AppContext;
 import knowledge.event.persist.NodeDeleted;
 import knowledge.event.persist.SubNodeDeleted;
-import model.knowledge.RootElement;
+import model.knowledge.Element;
 
 /**
  * Кеш для сеансового хранения данных, привязанных к объекту
@@ -39,7 +39,7 @@ public class NodeObjectsCache {
 
 	
 	
-	public void put(RootElement node, String key, Object object){
+	public void put(Element node, String key, Object object){
 		lock.writeLock().lock();
 		try {
 			HashMap<String, Object> nodeObjects = getNodeObjects(node);
@@ -55,7 +55,7 @@ public class NodeObjectsCache {
 	
 
 	@SuppressWarnings("unchecked")
-	public <T> T get(RootElement node, String key){
+	public <T> T get(Element node, String key){
 		lock.readLock().lock();
 		try {
 			HashMap<String, Object> nodeObjects = getNodeObjects(node);
@@ -66,7 +66,7 @@ public class NodeObjectsCache {
 
 	}
 	
-	private HashMap<String, Object> getNodeObjects(RootElement node) {
+	private HashMap<String, Object> getNodeObjects(Element node) {
 		String key = getNodeKey(node);
 		HashMap<String, Object> out = objectsMap.get(key);
 		if(out == null){
@@ -76,7 +76,7 @@ public class NodeObjectsCache {
 		return out;
 	}
 
-	private String getNodeKey(RootElement node) {
+	private String getNodeKey(Element node) {
 		return node.getUuid();
 	}
 	
@@ -98,7 +98,7 @@ public class NodeObjectsCache {
 	void remove(SubNodeDeleted deleted){
 		lock.writeLock().lock();
 		try {
-			for(RootElement node : deleted.getData()){
+			for(Element node : deleted.getData()){
 				objectsMap.remove(getNodeKey(node));
 			}
 		} finally {

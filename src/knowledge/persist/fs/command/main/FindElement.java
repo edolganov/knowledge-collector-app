@@ -2,11 +2,11 @@ package knowledge.persist.fs.command.main;
 
 import java.util.List;
 
-import model.knowledge.Root;
-import model.knowledge.RootElement;
+import model.knowledge.Container;
+import model.knowledge.Element;
 import knowledge.persist.fs.command.Command;
 
-public class FindElement extends Command<RootElement>{
+public class FindElement extends Command<Element>{
 	
 	String rootUuid; 
 	String nodeUuid;
@@ -22,14 +22,14 @@ public class FindElement extends Command<RootElement>{
 
 
 	@Override
-	protected RootElement doAction() throws Exception {
+	protected Element doAction() throws Exception {
 		if(rootUuid == null || nodeUuid == null) return null;
 		
-		Root root = context.getRootCache().getRootByUuid(rootUuid);
+		Container root = context.getRootCache().getRootByUuid(rootUuid);
 		if(root == null) return null;
 		
-		List<RootElement> nodes = root.getNodes();
-		for (RootElement rootElement : nodes) {
+		List<Element> nodes = root.getNodes();
+		for (Element rootElement : nodes) {
 			if(rootElement.getUuid().equals(nodeUuid)){
 				return rootElement;
 			}

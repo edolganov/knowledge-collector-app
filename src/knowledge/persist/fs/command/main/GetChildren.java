@@ -4,17 +4,17 @@ import java.util.Collections;
 import java.util.List;
 
 import model.knowledge.Node;
-import model.knowledge.Root;
-import model.knowledge.RootElement;
+import model.knowledge.Container;
+import model.knowledge.Element;
 import knowledge.persist.fs.command.Command;
 
-public class GetChildren extends Command<List<RootElement>>{
+public class GetChildren extends Command<List<Element>>{
 	
-	RootElement node;
+	Element node;
 	
 	
 
-	public GetChildren(RootElement node) {
+	public GetChildren(Element node) {
 		super();
 		this.node = node;
 	}
@@ -22,9 +22,9 @@ public class GetChildren extends Command<List<RootElement>>{
 
 
 	@Override
-	protected List<RootElement> doAction() {
+	protected List<Element> doAction() {
 
-		Root root = invokeNext(new GetNodeRoot(node, false));
+		Container root = invokeNext(new GetNodeRoot(node, false));
 		if(root != null) return root.getNodes();
 		
 		return Collections.emptyList();

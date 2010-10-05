@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author jenua.dolganov
  *
  */
-public abstract class Node extends RootElement {
+public abstract class Node extends Element {
 	
 	protected String name;
 	protected String description;

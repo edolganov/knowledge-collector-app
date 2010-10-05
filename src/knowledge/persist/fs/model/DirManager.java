@@ -9,7 +9,7 @@ import knowledge.persist.fs.tools.DelManager;
 import knowledge.persist.fs.tools.FileNameUtil;
 
 import model.knowledge.Dir;
-import model.knowledge.Root;
+import model.knowledge.Container;
 
 public class DirManager extends AbstractNodeManager implements INodeManager<Dir> {
 
@@ -23,7 +23,7 @@ public class DirManager extends AbstractNodeManager implements INodeManager<Dir>
 	}
 
 	@Override
-	public Pair<String, String> move(Root oldRoot, Dir node) {
+	public Pair<String, String> move(Container oldRoot, Dir node) {
 		String dirName = getDirName(node);
 		String oldPath = FileNameUtil.getFilePath(oldRoot.getDirPath(), dirName);
 		String newRootPath = node.getParent().getDirPath();

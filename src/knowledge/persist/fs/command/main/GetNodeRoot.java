@@ -1,18 +1,18 @@
 package knowledge.persist.fs.command.main;
 
-import model.knowledge.Root;
-import model.knowledge.RootElement;
+import model.knowledge.Container;
+import model.knowledge.Element;
 import knowledge.persist.fs.command.Command;
 import knowledge.persist.fs.model.INodeManager;
 
-public class GetNodeRoot extends Command<Root> {
+public class GetNodeRoot extends Command<Container> {
 	
-	RootElement node;
+	Element node;
 	boolean createIfNotExist;
 	
 	
 
-	public GetNodeRoot(RootElement meta, boolean createIfNotExist) {
+	public GetNodeRoot(Element meta, boolean createIfNotExist) {
 		super();
 		this.node = meta;
 		this.createIfNotExist = createIfNotExist;
@@ -21,7 +21,7 @@ public class GetNodeRoot extends Command<Root> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected Root doAction() {
+	protected Container doAction() {
 		INodeManager nodeManager = context.getNodeManagerMap().get(node.getClass());
 		if(nodeManager == null) return null;
 		

@@ -22,8 +22,8 @@ import knowledge.persist.fs.tools.RootCache;
 import model.knowledge.Dir;
 import model.knowledge.Link;
 import model.knowledge.Note;
-import model.knowledge.Root;
-import model.knowledge.RootElement;
+import model.knowledge.Container;
+import model.knowledge.Element;
 
 
 public class FSPersist  {
@@ -75,30 +75,30 @@ public class FSPersist  {
 	}
 
 
-	public void addChild(RootElement parent, RootElement child) {
+	public void addChild(Element parent, Element child) {
 		invoke(new AddChild(parent, child));
 	}
 
-	public void updateRoot(Root root) {
+	public void updateRoot(Container root) {
 		if(root == null) return;
 		invoke(new SaveRoot(root));
 	}
 
-	public Root getRoot() {
-		Root out = invoke(new GetRoot(mainDirPath,false));
+	public Container getRoot() {
+		Container out = invoke(new GetRoot(mainDirPath,false));
 		return out;
 	}
 
-	public List<RootElement> getChildren(RootElement node) {
-		List<RootElement> out = invoke(new GetChildren(node));
+	public List<Element> getChildren(Element node) {
+		List<Element> out = invoke(new GetChildren(node));
 		return out;
 	}
 
-	public RootElement find(String nodeRootUuid, String nodeUuid) {
+	public Element find(String nodeRootUuid, String nodeUuid) {
 		return invoke(new FindElement(nodeRootUuid, nodeUuid));
 	}
 
-	public void delete(RootElement node) {
+	public void delete(Element node) {
 		invoke(new DeleteElement(node));
 	}
 	

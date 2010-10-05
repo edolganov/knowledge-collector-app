@@ -1,10 +1,10 @@
 package knowledge.persist.fs.model;
 
 import ru.chapaj.util.bean.Pair;
-import model.knowledge.Root;
-import model.knowledge.RootElement;
+import model.knowledge.Container;
+import model.knowledge.Element;
 
-public interface INodeManager<T extends RootElement> {
+public interface INodeManager<T extends Element> {
 	
 	/**
 	 * Получить путь до папки содержащей файл 'data.xml' данного элемента
@@ -19,7 +19,7 @@ public interface INodeManager<T extends RootElement> {
 	 * @param node
 	 * @return [oldPath, newPath]
 	 */
-	Pair<String, String> move(Root oldRoot, T node);
+	Pair<String, String> move(Container oldRoot, T node);
 
 	/**
 	 * Удалить все файлы связанные с нодой

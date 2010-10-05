@@ -4,7 +4,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import knowledge.core.command.Command;
 
-import model.knowledge.RootElement;
+import model.knowledge.Element;
 
 public class MoveNode extends Command<Void>{
 
@@ -23,7 +23,7 @@ public class MoveNode extends Command<Void>{
 
 	@Override
 	protected Void doAction() {
-		RootElement[] nodes = invokeNext(new GetMoveElements(tagretNode, draggedNode));
+		Element[] nodes = invokeNext(new GetMoveElements(tagretNode, draggedNode));
 		if(nodes != null){
 			invokeNext(new AddTreeNode(nodes[0], nodes[1]));
 		}
