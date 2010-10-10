@@ -20,13 +20,13 @@ import knowledge.main.ui.MainWindow;
 import knowledge.main.ui.tree.HasCellConst;
 import knowledge.main.ui.tree.MainCellRender;
 
-import model.knowledge.Dir;
-import model.knowledge.NodeLink;
-import model.knowledge.Element;
 import ru.chapaj.util.event.annotation.EventListener;
 import ru.chapaj.util.swing.tree.ExtendTree;
 import ru.chapaj.util.swing.tree.TreeNodeAdapter;
 import ru.chapaj.util.swing.tree.ExtendTree.SelectModel;
+import ru.kc.model.knowledge.Dir;
+import ru.kc.model.knowledge.Element;
+import ru.kc.model.knowledge.NodeLink;
 
 @ControllerInfo(target=MainWindow.class)
 public class TreeController extends Controller<MainWindow> implements HasCellConst{

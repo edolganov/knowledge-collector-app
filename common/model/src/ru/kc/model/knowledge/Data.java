@@ -1,4 +1,4 @@
-package model.knowledge;
+package ru.kc.model.knowledge;
 
 /**
  * Данные большого объема хранящиеся вне xml базы

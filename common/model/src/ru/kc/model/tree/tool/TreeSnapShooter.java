@@ -1,4 +1,4 @@
-package model.tree.tool;
+package ru.kc.model.tree.tool;
 
 import java.util.Enumeration;
 import java.util.LinkedList;
@@ -8,7 +8,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
-import model.HavingUuid;
+import ru.kc.model.HavingUuid;
+
 
 
 public class TreeSnapShooter {

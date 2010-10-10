@@ -3,13 +3,13 @@ package knowledge.persist.fs.model;
 import java.io.File;
 
 import ru.chapaj.util.bean.Pair;
+import ru.kc.model.knowledge.Container;
+import ru.kc.model.knowledge.Dir;
 
 import knowledge.persist.fs.exception.RenameException;
 import knowledge.persist.fs.tools.DelManager;
 import knowledge.persist.fs.tools.FileNameUtil;
 
-import model.knowledge.Dir;
-import model.knowledge.Container;
 
 public class DirManager extends AbstractNodeManager implements INodeManager<Dir> {
 

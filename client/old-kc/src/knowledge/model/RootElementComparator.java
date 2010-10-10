@@ -2,7 +2,8 @@ package knowledge.model;
 
 import java.util.Comparator;
 
-import model.knowledge.Element;
+import ru.kc.model.knowledge.Element;
+
 
 public class RootElementComparator implements Comparator<Element> {
 

@@ -1,8 +1,8 @@
 package knowledge.persist.fs.model;
 
+import ru.kc.model.knowledge.Node;
 import knowledge.persist.fs.tools.DelManager;
 import knowledge.persist.fs.tools.FileNameUtil;
-import model.knowledge.Node;
 
 public abstract class AbstractNodeManager {
 	

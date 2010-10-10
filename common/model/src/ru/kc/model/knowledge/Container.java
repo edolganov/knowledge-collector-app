@@ -1,11 +1,12 @@
-package model.knowledge;
+package ru.kc.model.knowledge;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import model.HavingUuid;
-import model.knowledge.role.Parent;
-import model.tree.TreeSnapshotRoot;
+import ru.kc.model.HavingUuid;
+import ru.kc.model.knowledge.role.Parent;
+import ru.kc.model.tree.TreeSnapshotRoot;
+
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;

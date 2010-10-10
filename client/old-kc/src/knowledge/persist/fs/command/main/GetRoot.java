@@ -3,9 +3,9 @@ package knowledge.persist.fs.command.main;
 import java.io.File;
 
 import ru.chapaj.util.UuidGenerator;
+import ru.kc.model.knowledge.Container;
+import ru.kc.model.knowledge.Element;
 
-import model.knowledge.Container;
-import model.knowledge.Element;
 import knowledge.persist.fs.command.Command;
 
 public class GetRoot extends Command<Container>{

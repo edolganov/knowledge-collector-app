@@ -2,13 +2,14 @@ package knowledge.command.link;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import ru.kc.model.knowledge.Element;
+import ru.kc.model.knowledge.NodeLink;
+
 import knowledge.command.tree.AddTreeNode;
 import knowledge.command.tree.GetMoveElements;
 import knowledge.core.command.Command;
 import knowledge.main.MainConst;
 
-import model.knowledge.NodeLink;
-import model.knowledge.Element;
 
 public class CreateNodeLink extends Command<Void> {
 

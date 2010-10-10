@@ -6,8 +6,8 @@ import knowledge.persist.fs.exception.RenameException;
 import knowledge.persist.fs.tools.DelManager;
 import knowledge.persist.fs.tools.FileNameUtil;
 import ru.chapaj.util.bean.Pair;
-import model.knowledge.Link;
-import model.knowledge.Container;
+import ru.kc.model.knowledge.Container;
+import ru.kc.model.knowledge.Link;
 
 public class LinkManager extends AbstractNodeManager implements INodeManager<Link> {
 	

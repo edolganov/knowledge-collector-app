@@ -4,9 +4,9 @@ import knowledge.event.persist.ChildAdded;
 import knowledge.persist.fs.command.Command;
 import knowledge.persist.fs.command.main.check.CheckNoExist;
 import knowledge.persist.fs.model.INodeManager;
-import model.knowledge.Container;
-import model.knowledge.Element;
 import ru.chapaj.util.bean.Pair;
+import ru.kc.model.knowledge.Container;
+import ru.kc.model.knowledge.Element;
 
 public class MoveChild extends Command<Void>{
 	

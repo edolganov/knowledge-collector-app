@@ -1,11 +1,11 @@
-package model.knowledge;
+package ru.kc.model.knowledge;
 
 import ru.chapaj.util.UuidGenerator;
+import ru.kc.model.HavingUuid;
+import ru.kc.model.knowledge.role.Parent;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-import model.HavingUuid;
-import model.knowledge.role.Parent;
 
 /**
  * Элемент рута

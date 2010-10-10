@@ -15,14 +15,14 @@ import knowledge.main.MainConst;
 import knowledge.main.ui.MainWindow;
 import knowledge.model.RootElementComparator;
 
-import model.knowledge.Node;
-import model.knowledge.Element;
-import model.knowledge.Container;
 import ru.chapaj.util.collection.ListUtil;
 import ru.chapaj.util.event.annotation.EventListener;
 import ru.chapaj.util.lang.ClassUtil;
 import ru.chapaj.util.swing.tree.ExtendDefaultTreeModel;
 import ru.chapaj.util.swing.tree.TreeNodeAdapter;
+import ru.kc.model.knowledge.Container;
+import ru.kc.model.knowledge.Element;
+import ru.kc.model.knowledge.Node;
 
 @ControllerInfo(target=MainWindow.class, dependence=TreeController.class)
 public class SortTreeController extends Controller<MainWindow>{

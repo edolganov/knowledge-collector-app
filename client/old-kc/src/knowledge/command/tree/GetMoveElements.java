@@ -3,12 +3,13 @@ package knowledge.command.tree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
+import ru.kc.model.knowledge.Dir;
+import ru.kc.model.knowledge.Element;
+import ru.kc.model.knowledge.Node;
+import ru.kc.model.knowledge.TextData;
+
 import knowledge.core.command.Command;
 
-import model.knowledge.Dir;
-import model.knowledge.Node;
-import model.knowledge.Element;
-import model.knowledge.TextData;
 
 public class GetMoveElements extends Command<Element[]> {
 	

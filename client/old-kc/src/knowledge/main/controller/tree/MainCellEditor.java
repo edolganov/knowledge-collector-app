@@ -16,6 +16,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeCellEditor;
 import javax.swing.tree.TreePath;
 
+import ru.kc.model.knowledge.Dir;
+import ru.kc.model.knowledge.Link;
+import ru.kc.model.knowledge.TextData;
+
 import knowledge.AppContext;
 import knowledge.command.dialog.NewDir;
 import knowledge.command.dialog.NewLink;
@@ -25,9 +29,6 @@ import knowledge.core.command.CommandService;
 import knowledge.main.ui.tree.HasCellConst;
 import knowledge.main.ui.tree.NodeButtonsPanelExtend;
 
-import model.knowledge.Dir;
-import model.knowledge.Link;
-import model.knowledge.TextData;
 
 
 

@@ -25,12 +25,12 @@ import knowledge.event.ui.NeedShowOrHideActionPanel;
 import knowledge.event.ui.ShowActionPanel;
 import knowledge.main.ui.tree.HasCellConst;
 
-import model.knowledge.Dir;
-import model.knowledge.Element;
-import model.knowledge.TextData;
 import ru.chapaj.util.event.annotation.EventListener;
 import ru.chapaj.util.swing.IconHelper;
 import ru.chapaj.util.swing.tree.ExtendTree;
+import ru.kc.model.knowledge.Dir;
+import ru.kc.model.knowledge.Element;
+import ru.kc.model.knowledge.TextData;
 
 public class TreeMenu extends JPopupMenu implements HasCellConst {
 	

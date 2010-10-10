@@ -11,8 +11,8 @@ import knowledge.event.persist.SubNodeDeleted;
 
 import ru.chapaj.util.Check;
 import ru.chapaj.util.event.EventManager;
+import ru.kc.model.knowledge.Container;
 
-import model.knowledge.Container;
 
 public class RootCache {
 	
@@ -76,7 +76,7 @@ public class RootCache {
 	 * @param pathPattern
 	 */
 	public void deleteAllRoots(String pathPattern) {
-		ArrayList<model.knowledge.Element> out = new ArrayList<model.knowledge.Element>();
+		ArrayList<ru.kc.model.knowledge.Element> out = new ArrayList<ru.kc.model.knowledge.Element>();
 		
 		lock.writeLock().lock();
 		try {

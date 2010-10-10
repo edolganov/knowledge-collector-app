@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 import knowledge.core.command.Command;
 import knowledge.main.ui.dialog.NewDirDialog;
 
-import model.knowledge.Dir;
 import ru.chapaj.util.Check;
 import ru.chapaj.util.swing.listener.KeyEnterAdapter;
+import ru.kc.model.knowledge.Dir;
 
 public class NewDir extends Command<Dir> {
 

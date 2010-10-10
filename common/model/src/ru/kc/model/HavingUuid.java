@@ -1,4 +1,4 @@
-package model;
+package ru.kc.model;
 
 public interface HavingUuid {
 	

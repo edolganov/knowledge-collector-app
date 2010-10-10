@@ -1,4 +1,4 @@
-package model.knowledge;
+package ru.kc.model.knowledge;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 

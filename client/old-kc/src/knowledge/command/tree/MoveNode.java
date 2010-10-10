@@ -2,9 +2,10 @@ package knowledge.command.tree;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import ru.kc.model.knowledge.Element;
+
 import knowledge.core.command.Command;
 
-import model.knowledge.Element;
 
 public class MoveNode extends Command<Void>{
 

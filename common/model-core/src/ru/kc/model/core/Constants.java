@@ -1,4 +1,4 @@
-package ru.kc.core;
+package ru.kc.model.core;
 
 public interface Constants {
 	

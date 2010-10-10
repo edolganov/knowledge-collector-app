@@ -3,13 +3,13 @@ package knowledge.model;
 import java.util.Comparator;
 
 import ru.chapaj.util.lang.ClassUtil;
+import ru.kc.model.knowledge.Dir;
+import ru.kc.model.knowledge.Element;
+import ru.kc.model.knowledge.LocalLink;
+import ru.kc.model.knowledge.NetworkLink;
+import ru.kc.model.knowledge.Node;
+import ru.kc.model.knowledge.TextData;
 
-import model.knowledge.Dir;
-import model.knowledge.LocalLink;
-import model.knowledge.NetworkLink;
-import model.knowledge.Node;
-import model.knowledge.Element;
-import model.knowledge.TextData;
 
 public class ModelClassComparator implements Comparator<Class<?>> {
 

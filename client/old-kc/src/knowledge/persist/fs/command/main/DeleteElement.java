@@ -1,10 +1,10 @@
 package knowledge.persist.fs.command.main;
 
+import ru.kc.model.knowledge.Container;
+import ru.kc.model.knowledge.Element;
 import knowledge.event.persist.NodeDeleted;
 import knowledge.persist.fs.command.Command;
 import knowledge.persist.fs.model.INodeManager;
-import model.knowledge.Container;
-import model.knowledge.Element;
 
 public class DeleteElement extends Command<Void>{
 	

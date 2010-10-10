@@ -2,7 +2,8 @@ package knowledge.persist.fs.command.main;
 
 import java.io.File;
 
-import model.knowledge.Container;
+import ru.kc.model.knowledge.Container;
+
 import knowledge.persist.fs.command.Command;
 
 public class SaveRoot extends Command<Void> {

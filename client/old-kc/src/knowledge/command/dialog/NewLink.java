@@ -8,11 +8,11 @@ import knowledge.command.model.link.IsLocalLink;
 import knowledge.core.command.Command;
 import knowledge.main.ui.dialog.NewLinkDialog;
 
-import model.knowledge.Link;
-import model.knowledge.LocalLink;
-import model.knowledge.NetworkLink;
 import ru.chapaj.util.Check;
 import ru.chapaj.util.swing.listener.KeyEnterAdapter;
+import ru.kc.model.knowledge.Link;
+import ru.kc.model.knowledge.LocalLink;
+import ru.kc.model.knowledge.NetworkLink;
 
 public class NewLink extends Command<Link> {
 
