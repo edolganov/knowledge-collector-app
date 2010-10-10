@@ -5,6 +5,7 @@
 	<classpathentry kind="src" path="common/util/src"/>
 	<classpathentry kind="src" path="common/model/src"/>
 	<classpathentry kind="src" path="common/model-core/src"/>
+	<classpathentry kind="src" path="client/common/swing-util/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="thirdparty/dom4j-1.6.jar"/>
 	<classpathentry kind="lib" path="thirdparty/google-collections-1.0.jar"/>

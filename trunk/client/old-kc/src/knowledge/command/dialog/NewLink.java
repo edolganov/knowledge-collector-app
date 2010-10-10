@@ -8,11 +8,11 @@ import knowledge.command.model.link.IsLocalLink;
 import knowledge.core.command.Command;
 import knowledge.main.ui.dialog.NewLinkDialog;
 
-import ru.chapaj.util.Check;
 import ru.chapaj.util.swing.listener.KeyEnterAdapter;
 import ru.kc.model.knowledge.Link;
 import ru.kc.model.knowledge.LocalLink;
 import ru.kc.model.knowledge.NetworkLink;
+import util.Util;
 
 public class NewLink extends Command<Link> {
 
@@ -47,8 +47,8 @@ Link out = null;
 		if(newLink.isConfirmedAction()){
 			String name = newLink.namePanel.textField.getText();
 			String url = newLink.urlPanel.textField.getText();
-			if(!Check.isEmpty(name) || !Check.isEmpty(url)) {
-				if(!Check.isEmpty(url)){
+			if(!Util.isEmpty(name) || !Util.isEmpty(url)) {
+				if(!Util.isEmpty(url)){
 					if(invokeNext(new IsInetLink(url))){
 						out = new NetworkLink();
 					}
@@ -63,7 +63,7 @@ Link out = null;
 					out = new NetworkLink();
 				}
 				
-				if(!Check.isEmpty(name)){
+				if(!Util.isEmpty(name)){
 					out.setName(name);
 				}
 				else {

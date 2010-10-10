@@ -6,10 +6,10 @@ import java.awt.event.ActionListener;
 import knowledge.core.command.Command;
 import knowledge.main.ui.dialog.NewDirDialog;
 
-import ru.chapaj.util.Check;
 import ru.chapaj.util.swing.listener.KeyEnterAdapter;
 import ru.kc.model.knowledge.Note;
 import ru.kc.model.knowledge.TextData;
+import util.Util;
 
 public class NewText extends Command<TextData>{
 
@@ -42,7 +42,7 @@ public class NewText extends Command<TextData>{
 		
 		if(newText.isConfirmedAction()){
 			String name = newText.namePanel.textField.getText();
-			if(!Check.isEmpty(name)){
+			if(!Util.isEmpty(name)){
 				out = new Note();
 				out.setName(name);
 			}

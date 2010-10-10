@@ -20,9 +20,9 @@ import knowledge.main.ui.MainWindow;
 import knowledge.model.DecoratorUtil;
 import knowledge.model.ModelClassComparator;
 
-import ru.chapaj.util.Check;
 import ru.kc.model.knowledge.Link;
 import ru.kc.model.knowledge.Node;
+import util.Util;
 
 
 @ControllerInfo(target=MainWindow.class)
@@ -79,7 +79,7 @@ public class SearchController extends Controller<MainWindow> {
 	
 	@SuppressWarnings("unchecked")
 	protected void doSearch(String query) {
-		if(Check.isEmpty(query)) return;
+		if(Util.isEmpty(query)) return;
 		
 		DefaultTreeModel model = ((DefaultTreeModel)ui.tree.getModel());
 		DefaultMutableTreeNode root = (DefaultMutableTreeNode)model.getRoot();

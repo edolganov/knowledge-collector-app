@@ -1,7 +1,7 @@
 package ru.chapaj.util.os.win;
 
-import ru.chapaj.util.Check;
 import ru.chapaj.util.os.ProcessWrapper;
+import util.Util;
 
 public class WinUtil {
 	
@@ -60,7 +60,7 @@ public class WinUtil {
 			}
 			
 			String executeExpression = "cmd /c start \""+filePath+"\" /D \""+path+"\" \""+file+"\"";
-			if(!Check.isEmpty(params)){
+			if(!Util.isEmpty(params)){
 				if(' ' != params.charAt(0)) params = ' '+params;
 				executeExpression += params;
 			}

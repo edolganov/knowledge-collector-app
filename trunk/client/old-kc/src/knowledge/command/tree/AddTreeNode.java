@@ -1,9 +1,9 @@
 package knowledge.command.tree;
 
 import knowledge.core.command.Command;
-import ru.chapaj.util.Check;
 import ru.kc.model.knowledge.Element;
 import ru.kc.model.knowledge.Link;
+import util.Util;
 
 public class AddTreeNode extends Command<Void> {
 
@@ -24,10 +24,10 @@ public class AddTreeNode extends Command<Void> {
 			Link l = (Link) node;
 			String name = l.getName();
 			String url = l.getUrl();
-			if(Check.isEmpty(name)){
+			if(Util.isEmpty(name)){
 				l.setName(url);
 			}
-			else if(Check.isEmpty(url)){
+			else if(Util.isEmpty(url)){
 				l.setUrl(name);
 			}
 		}
