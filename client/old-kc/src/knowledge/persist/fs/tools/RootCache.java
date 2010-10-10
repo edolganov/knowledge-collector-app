@@ -9,9 +9,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import knowledge.event.persist.SubNodeDeleted;
 
-import ru.chapaj.util.Check;
 import ru.chapaj.util.event.EventManager;
 import ru.kc.model.knowledge.Container;
+import util.Util;
 
 
 public class RootCache {
@@ -94,7 +94,7 @@ public class RootCache {
 			lock.writeLock().unlock();
 		}
 		
-		if(!Check.isEmpty(out)){
+		if(!Util.isEmpty(out)){
 			eventManager.fireEvent(this, new SubNodeDeleted(out));
 		}
 	}

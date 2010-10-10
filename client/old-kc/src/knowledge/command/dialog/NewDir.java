@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 import knowledge.core.command.Command;
 import knowledge.main.ui.dialog.NewDirDialog;
 
-import ru.chapaj.util.Check;
 import ru.chapaj.util.swing.listener.KeyEnterAdapter;
 import ru.kc.model.knowledge.Dir;
+import util.Util;
 
 public class NewDir extends Command<Dir> {
 
@@ -40,7 +40,7 @@ public class NewDir extends Command<Dir> {
 		
 		if(newDir.isConfirmedAction()){
 			String name = newDir.namePanel.textField.getText();
-			if(!Check.isEmpty(name)){
+			if(!Util.isEmpty(name)){
 				out = new Dir();
 				out.setName(name);
 			}
