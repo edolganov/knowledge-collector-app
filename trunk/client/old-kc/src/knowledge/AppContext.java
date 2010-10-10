@@ -3,7 +3,7 @@ package knowledge;
 import java.awt.Toolkit;
 
 import knowledge.core.command.CommandService;
-import knowledge.main.ui.ExceptionHandler;
+import knowledge.main.ExceptionHandler;
 import knowledge.main.ui.MainWindow;
 import knowledge.persist.fs.FSPersist;
 import knowledge.tools.NodeObjectsCache;

@@ -10,7 +10,7 @@ import knowledge.command.app.InitControllers;
 import knowledge.core.command.CommandService;
 import knowledge.event.TryExit;
 import knowledge.event.ui.NeedShowApp;
-import knowledge.main.ui.ExceptionHandler;
+import knowledge.main.ExceptionHandler;
 import knowledge.main.ui.MainWindow;
 import knowledge.persist.fs.FSPersist;
 import knowledge.tools.NodeObjectsCache;
