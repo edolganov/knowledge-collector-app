@@ -20,9 +20,9 @@ import knowledge.main.ui.MainWindow;
 import knowledge.model.DecoratorUtil;
 import knowledge.model.ModelClassComparator;
 
-import model.knowledge.Link;
-import model.knowledge.Node;
 import ru.chapaj.util.Check;
+import ru.kc.model.knowledge.Link;
+import ru.kc.model.knowledge.Node;
 
 
 @ControllerInfo(target=MainWindow.class)

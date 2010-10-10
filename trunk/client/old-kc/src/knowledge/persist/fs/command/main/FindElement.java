@@ -2,8 +2,9 @@ package knowledge.persist.fs.command.main;
 
 import java.util.List;
 
-import model.knowledge.Container;
-import model.knowledge.Element;
+import ru.kc.model.knowledge.Container;
+import ru.kc.model.knowledge.Element;
+
 import knowledge.persist.fs.command.Command;
 
 public class FindElement extends Command<Element>{

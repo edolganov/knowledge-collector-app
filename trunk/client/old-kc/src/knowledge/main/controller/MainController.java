@@ -13,10 +13,10 @@ import knowledge.core.controller.Controller;
 import knowledge.core.controller.ControllerInfo;
 import knowledge.main.ui.MainWindow;
 
-import model.knowledge.Dir;
-import model.knowledge.TextData;
 import ru.chapaj.util.swing.IconHelper;
 import ru.chapaj.util.swing.tree.TreeNodeAdapter;
+import ru.kc.model.knowledge.Dir;
+import ru.kc.model.knowledge.TextData;
 
 @ControllerInfo(target=MainWindow.class)
 public class MainController extends Controller<MainWindow> {

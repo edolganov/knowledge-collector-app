@@ -9,11 +9,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 
-import model.knowledge.Dir;
-import model.knowledge.LocalLink;
-import model.knowledge.NetworkLink;
-import model.knowledge.Note;
 import ru.chapaj.util.swing.IconHelper;
+import ru.kc.model.knowledge.Dir;
+import ru.kc.model.knowledge.LocalLink;
+import ru.kc.model.knowledge.NetworkLink;
+import ru.kc.model.knowledge.Note;
 
 public class MainCellRender implements TreeCellRenderer, HasCellConst {
 

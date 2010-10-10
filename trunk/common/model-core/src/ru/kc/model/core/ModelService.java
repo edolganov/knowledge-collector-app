@@ -1,11 +1,11 @@
-package ru.kc.core;
+package ru.kc.model.core;
 
 import java.io.File;
 
 import ru.chapaj.util.UuidGenerator;
-import ru.kc.core.store.StoreService;
+import ru.kc.model.core.store.StoreService;
+import ru.kc.model.knowledge.Container;
 
-import model.knowledge.Container;
 
 public class ModelService {
 	

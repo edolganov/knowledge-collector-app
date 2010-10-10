@@ -19,13 +19,13 @@ import knowledge.core.controller.ControllerInfo;
 import knowledge.event.ui.ShowOnTop;
 import knowledge.main.ui.MainWindow;
 
-import model.knowledge.Link;
-import model.knowledge.Node;
-import model.knowledge.Element;
 
 import ru.chapaj.util.os.BareBonesBrowserLaunch;
 import ru.chapaj.util.os.win.WinUtil;
 import ru.chapaj.util.swing.tree.TreeUtil;
+import ru.kc.model.knowledge.Element;
+import ru.kc.model.knowledge.Link;
+import ru.kc.model.knowledge.Node;
 
 @ControllerInfo(target=MainWindow.class,dependence=TreeController.class)
 public class ClickController extends Controller<MainWindow> implements ClipboardOwner{

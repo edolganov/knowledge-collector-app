@@ -2,6 +2,12 @@ package knowledge.persist.fs;
 
 import java.util.List;
 
+import ru.kc.model.knowledge.Container;
+import ru.kc.model.knowledge.Dir;
+import ru.kc.model.knowledge.Element;
+import ru.kc.model.knowledge.Link;
+import ru.kc.model.knowledge.Note;
+
 import knowledge.AppContext;
 import knowledge.persist.fs.command.Command;
 import knowledge.persist.fs.command.CommandService;
@@ -19,11 +25,6 @@ import knowledge.persist.fs.tools.DataStore;
 import knowledge.persist.fs.tools.DelManager;
 import knowledge.persist.fs.tools.RootCache;
 
-import model.knowledge.Dir;
-import model.knowledge.Link;
-import model.knowledge.Note;
-import model.knowledge.Container;
-import model.knowledge.Element;
 
 
 public class FSPersist  {

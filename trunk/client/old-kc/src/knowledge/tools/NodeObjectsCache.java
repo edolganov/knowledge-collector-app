@@ -5,11 +5,11 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import ru.chapaj.util.event.annotation.EventListener;
+import ru.kc.model.knowledge.Element;
 
 import knowledge.AppContext;
 import knowledge.event.persist.NodeDeleted;
 import knowledge.event.persist.SubNodeDeleted;
-import model.knowledge.Element;
 
 /**
  * Кеш для сеансового хранения данных, привязанных к объекту

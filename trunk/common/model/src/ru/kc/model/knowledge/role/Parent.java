@@ -1,4 +1,4 @@
-package model.knowledge.role;
+package ru.kc.model.knowledge.role;
 
 /**
  * Объект, способный иметь детей

@@ -1,4 +1,4 @@
-package model.tree;
+package ru.kc.model.tree;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 

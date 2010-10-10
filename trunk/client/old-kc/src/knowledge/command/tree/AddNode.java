@@ -1,7 +1,7 @@
 package knowledge.command.tree;
 
+import ru.kc.model.knowledge.Element;
 import knowledge.core.command.Command;
-import model.knowledge.Element;
 
 public class AddNode extends Command<Void> {
 

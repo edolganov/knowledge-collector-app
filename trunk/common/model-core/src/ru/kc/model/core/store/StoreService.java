@@ -1,9 +1,8 @@
-package ru.kc.core.store;
+package ru.kc.model.core.store;
 
 import java.io.File;
 import java.util.Set;
 
-import model.knowledge.Container;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,6 +14,7 @@ import org.reflections.util.FilterBuilder;
 
 import ru.chapaj.util.store.XmlStore;
 import ru.chapaj.util.xml.ObjectToXMLConverter;
+import ru.kc.model.knowledge.Container;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 

@@ -1,9 +1,9 @@
 package knowledge.event.persist;
 
 
-import model.knowledge.Element;
 
 import ru.chapaj.util.event.Event;
+import ru.kc.model.knowledge.Element;
 
 public class NodeUpdated extends Event<Element> {
 

@@ -1,8 +1,8 @@
 package knowledge.persist.fs.model;
 
 import ru.chapaj.util.bean.Pair;
-import model.knowledge.Container;
-import model.knowledge.Element;
+import ru.kc.model.knowledge.Container;
+import ru.kc.model.knowledge.Element;
 
 public interface INodeManager<T extends Element> {
 	

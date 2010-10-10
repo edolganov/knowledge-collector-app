@@ -1,9 +1,9 @@
 package knowledge.persist.fs.command.main.check;
 
-import model.knowledge.Node;
-import model.knowledge.Container;
-import model.knowledge.Element;
-import model.knowledge.role.Parent;
+import ru.kc.model.knowledge.Container;
+import ru.kc.model.knowledge.Element;
+import ru.kc.model.knowledge.Node;
+import ru.kc.model.knowledge.role.Parent;
 import knowledge.persist.fs.command.Command;
 import knowledge.persist.fs.command.main.GetNodeRoot;
 

@@ -6,8 +6,8 @@ import knowledge.persist.fs.exception.RenameException;
 import knowledge.persist.fs.tools.DelManager;
 import knowledge.persist.fs.tools.FileNameUtil;
 import ru.chapaj.util.bean.Pair;
-import model.knowledge.Note;
-import model.knowledge.Container;
+import ru.kc.model.knowledge.Container;
+import ru.kc.model.knowledge.Note;
 
 public class NoteManager extends AbstractNodeManager implements INodeManager<Note> {
 	

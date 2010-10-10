@@ -3,9 +3,10 @@ package knowledge.persist.fs.command.main;
 import java.util.Collections;
 import java.util.List;
 
-import model.knowledge.Node;
-import model.knowledge.Container;
-import model.knowledge.Element;
+import ru.kc.model.knowledge.Container;
+import ru.kc.model.knowledge.Element;
+import ru.kc.model.knowledge.Node;
+
 import knowledge.persist.fs.command.Command;
 
 public class GetChildren extends Command<List<Element>>{

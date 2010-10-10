@@ -2,8 +2,8 @@ package knowledge.command.tree;
 
 import knowledge.core.command.Command;
 import ru.chapaj.util.Check;
-import model.knowledge.Link;
-import model.knowledge.Element;
+import ru.kc.model.knowledge.Element;
+import ru.kc.model.knowledge.Link;
 
 public class AddTreeNode extends Command<Void> {
 

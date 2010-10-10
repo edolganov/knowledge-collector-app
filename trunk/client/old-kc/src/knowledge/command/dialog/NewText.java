@@ -6,10 +6,10 @@ import java.awt.event.ActionListener;
 import knowledge.core.command.Command;
 import knowledge.main.ui.dialog.NewDirDialog;
 
-import model.knowledge.Note;
-import model.knowledge.TextData;
 import ru.chapaj.util.Check;
 import ru.chapaj.util.swing.listener.KeyEnterAdapter;
+import ru.kc.model.knowledge.Note;
+import ru.kc.model.knowledge.TextData;
 
 public class NewText extends Command<TextData>{
 
