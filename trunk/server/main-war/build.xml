@@ -37,14 +37,19 @@
             </fileset>
         </copy>
 
-        <mkdir dir="${module.web.dir}/WEB-INF/classes"/>
-        <copy todir="${module.web.dir}/WEB-INF/classes">
+		<copy todir="${build.dir}/war">
+			<fileset dir="${module.web.dir}"/>
+		</copy>
+        <mkdir dir="${build.dir}/war/WEB-INF/classes"/>
+        <copy todir="${build.dir}/war/WEB-INF/classes">
             <fileset dir="${module.build.dir}"/>
         </copy>
 
         <jar jarfile="${module.dist.dir}/${module.name}">
-            <fileset dir="${module.web.dir}"/>
+            <fileset dir="${build.dir}/war"/>
         </jar>
+		
+		<delete dir="${build.dir}/war"/>
     </target>
 
     <target name="all" depends="deploy"/>
